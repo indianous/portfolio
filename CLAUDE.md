@@ -71,6 +71,10 @@ Se a aplicação precisar de uma alteração em um componente existente do `base
 Toda verificação visual da aplicação (abrir no navegador, conferir layout, clicar em fluxos) é feita pelo usuário — não pela Claude.
 Não usar a extensão do Chrome (`claude-in-chrome`) pra isso. Preparar o ambiente (subir serviços, aplicar migrations, configurar `.env`) é papel da Claude; testar visualmente é papel do usuário.
 
+### Commits
+
+Depois de implementar um plano (ou uma etapa de `plans/`), **não fazer commit sem autorização do usuário**. Deixar a aplicação rodando para a verificação visual, apresentar o que mudou e esperar o "pode commitar". O mesmo vale para push.
+
 ### TDD
 
 - Testes **antes** da implementação, sempre
