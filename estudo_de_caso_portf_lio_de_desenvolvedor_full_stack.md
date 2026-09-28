@@ -25,6 +25,7 @@ Desenvolvimento de uma aplicação web moderna utilizando uma arquitetura orient
 
 ## Tecnologias Utilizadas
 * **Front-end:** Next.js (React), Tailwind CSS, Framer Motion (para animações fluidas).
+* **Design System:** A aplicação deve utilizar os componentes da biblioteca [base-ds](https://github.com/indianous/base-ds).
 * **Deploy e Hospedagem:** Vercel (com integração contínua via GitHub Actions).
 * **Gerenciamento de Conteúdo:** Markdown para os posts do blog e descrições dos projetos.
 
