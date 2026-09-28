@@ -68,4 +68,5 @@ Não usar a extensão do Chrome (`claude-in-chrome`) pra isso. Preparar o ambien
 
 ## Idioma
 
-Conteúdo do site, mensagens de commit e documentação em português.
+Conteúdo do site, mensagens de commit e documentação em português. Rotas (URLs) em inglês:
+`/projects`, `/projects/[slug]`, `/blog`, `/blog/[slug]`, `/about`.
