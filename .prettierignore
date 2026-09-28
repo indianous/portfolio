@@ -1,0 +1,8 @@
+.next
+node_modules
+coverage
+
+# Pasta local do Claude Code (não versionada)
+.claude
+# Gerado pelo npm
+package-lock.json

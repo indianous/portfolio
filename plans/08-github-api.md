@@ -18,35 +18,43 @@
 ## 2. Testes a incluir
 
 **`src/lib/github/__tests__/client.test.ts`** (com `fetch` simulado)
+
 - Envia a query GraphQL com `Authorization: Bearer <token>`.
 - Resposta com `errors` vira erro tipado.
 - Sem `GITHUB_TOKEN`, devolve `null` sem chamar a rede.
 
 **`src/lib/github/__tests__/mappers.test.ts`**
+
 - Converte `pinnedItems` em `PinnedRepo` (`name`, `description`, `url`, `stars`, `language`).
 - Soma o total de contribuições do ano e mapeia as semanas.
 
 **`src/components/github/__tests__/PinnedRepos.test.tsx`**
+
 - Renderiza um card por repositório com link externo.
 - Com lista vazia/`null`, não renderiza a seção.
 
 **`src/components/github/__tests__/ContributionStats.test.tsx`**
+
 - Mostra total do ano e o gráfico com descrição textual acessível.
 
 ## 3. O que entra no projeto
 
 **Tipos**
+
 - `src/lib/github/types.ts`: `PinnedRepo`, `ContributionSummary`.
 
 **BFF**
+
 - `src/lib/github/client.ts` (`server-only`): GraphQL com `fetch(..., { next: { revalidate: 3600 } })`.
 - `src/lib/github/mappers.ts`.
 - `.env.example` com `GITHUB_TOKEN` e `GITHUB_USERNAME`.
 
 **Componentes**
+
 - `PinnedRepos` (`Card`, `Badge`), `ContributionStats`.
 - Seções dentro de `<Suspense>` com `Skeleton` do base-ds como fallback.
 
 **Páginas**
+
 - Seção GitHub na home e em `/about`.
 - **Ambiente:** o usuário cria o token (leitura pública) e o define no `.env.local` e na Vercel.

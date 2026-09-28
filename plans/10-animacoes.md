@@ -15,22 +15,27 @@
 ## 2. Testes a incluir
 
 **`src/components/motion/__tests__/Reveal.test.tsx`**
+
 - Com `prefers-reduced-motion: reduce` simulado, renderiza os filhos sem animação.
 - Sem a preferência, aplica as props de animação de entrada.
 
 **`src/components/motion/__tests__/MotionProvider.test.tsx`**
+
 - Envolve a árvore em `LazyMotion` com `strict` (impede importar `motion` completo por engano).
 
 ## 3. O que entra no projeto
 
 **Dependência**
+
 - `framer-motion` (ou `motion`, o nome atual do pacote).
 
 **Componentes**
+
 - `MotionProvider` (client) no layout.
 - `Reveal` (entrada ao rolar) e `Stagger` (lista em sequência), com variantes centralizadas em
   `src/components/motion/variants.ts`.
 
 **Páginas**
+
 - Aplicar em projetos em destaque, cards da vitrine (inclusive ao filtrar), linha do tempo e
   seções da home abaixo da dobra.

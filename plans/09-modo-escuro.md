@@ -20,31 +20,38 @@ lembrando a escolha do visitante.
 ## 2. Testes a incluir
 
 **`src/lib/__tests__/theme.test.ts`**
+
 - `resolveTheme('system', prefersDark=true)` → `'dark'`.
 - Preferência salva tem prioridade sobre a do sistema.
 - Valor inválido no armazenamento cai para `'system'`.
 - Acesso ao `localStorage` que lança erro não quebra a página.
 
 **`src/components/theme/__tests__/ThemeToggle.test.tsx`**
+
 - Clicar alterna a classe no `<html>` e salva a escolha.
 - Rótulo acessível descreve o tema de destino.
 
 **`src/app/__tests__/theme-script.test.ts`**
+
 - O script inline aplica a classe correta para cada combinação de preferência salva e do sistema.
 
 ## 3. O que entra no projeto
 
 **Dependência**
+
 - Atualizar `@indianous/base-ds` para a versão com tema escuro, conforme o CHANGELOG.
 
 **Tipos / lógica**
+
 - `src/lib/theme.ts`: `Theme = 'light' | 'dark' | 'system'`, `resolveTheme`, leitura/escrita
   seguras.
 
 **Componentes**
+
 - `ThemeToggle` (base-ds `Switch` ou `Button` com ícone), no `actions` do `Navbar`.
 - Script inline anti-flash no `layout.tsx`.
 
 **Páginas**
+
 - Nenhuma página nova; conferir contraste de todas as telas nos dois temas (verificação visual
   feita pelo usuário).

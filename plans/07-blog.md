@@ -19,28 +19,35 @@ Markdown.
 ## 2. Testes a incluir
 
 **`src/lib/__tests__/readingTime.test.ts`**
+
 - 200 palavras → "1 min de leitura"; nunca devolve 0.
 
 **`src/lib/__tests__/formatDate.test.ts`**
+
 - Formata em pt-BR ("28 de setembro de 2026") sem depender do fuso da máquina.
 
 **`src/components/blog/__tests__/PostList.test.tsx`**
+
 - Posts em ordem decrescente de data, cada um com título como link, data em `<time dateTime>` e
   tempo de leitura.
 
 **`src/app/blog/__tests__/rss.test.ts`**
+
 - O feed é XML válido com um `<item>` por post publicado.
 
 ## 3. O que entra no projeto
 
 **Tipos / BFF**
+
 - `readingTime`, `formatDate`.
 - `src/app/blog/rss.xml/route.ts` gerado de forma estática.
 
 **Componentes**
+
 - `PostList`, `PostHeader`; reutiliza `MarkdownContent` da etapa 06.
 
 **Páginas**
+
 - `src/app/blog/page.tsx` e `src/app/blog/[slug]/page.tsx` com `generateStaticParams`,
   `generateMetadata` e JSON-LD (`BlogPosting`).
 - Posts no sitemap e link do feed RSS no `<head>` (`alternates.types`).

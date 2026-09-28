@@ -2,6 +2,19 @@
 
 Este arquivo orienta o Claude Code ao trabalhar neste repositório.
 
+@AGENTS.md
+
+## Comandos
+
+- `npm run dev` — servidor de desenvolvimento
+- `npm test` — testes (Vitest); `npm run test:watch` em modo observação
+- `npm run lint`, `npm run typecheck`, `npm run format:check` — as mesmas checagens da CI
+- `npm run build` — build de produção
+
+`npm install` precisa de `GITHUB_PACKAGES_TOKEN` no ambiente (ver seção UI).
+
+Planos de implementação por etapa em `plans/` (índice em `plans/README.md`).
+
 ## Projeto
 
 Portfólio interativo de alta performance para um desenvolvedor full-stack: exibe aplicações web, projetos open-source e trajetória profissional, com foco em conversão (recrutadores e clientes) e usabilidade. A especificação completa está em `estudo_de_caso_portf_lio_de_desenvolvedor_full_stack.md` — consulte-a antes de decisões de produto ou arquitetura.

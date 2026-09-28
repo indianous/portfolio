@@ -15,32 +15,40 @@
 ## 2. Testes a incluir
 
 **`src/components/layout/__tests__/SiteHeader.test.tsx`**
+
 - Renderiza os links "Projetos", "Blog" e "Sobre" com os `href` corretos.
 - Marca o link da rota atual com `aria-current="page"`.
 
 **`src/components/layout/__tests__/SiteFooter.test.tsx`**
+
 - Renderiza links para GitHub e LinkedIn com `rel="noopener noreferrer"` quando externos.
 
 **`src/lib/__tests__/seo.test.ts`**
+
 - `buildMetadata({ title, description, path })` gera título no formato "Título · Nome",
   `canonical` absoluto e bloco Open Graph.
 
 **`src/app/__tests__/sitemap.test.ts`**
+
 - O sitemap lista as rotas estáticas (as dinâmicas entram nas etapas 05–07).
 
 ## 3. O que entra no projeto
 
 **Tipos**
+
 - `src/config/site.ts`: nome, descrição, URL base, redes sociais, itens de navegação (tipados).
 
 **BFF**
+
 - `src/lib/seo.ts` com `buildMetadata`.
 - `src/app/sitemap.ts` e `src/app/robots.ts`.
 
 **Componentes**
+
 - `SiteHeader` (base-ds `Navbar`) e `SiteFooter` (base-ds `Footer`), usando `Container`.
 - Link "Pular para o conteúdo" para acessibilidade (verificar se o base-ds tem algo equivalente).
 
 **Páginas**
-- `src/app/layout.tsx`: `lang="pt-BR"`, fonte via `next/font`, `metadata` padrão, header/footer.
+
+- `src/app/layout.tsx`: `lang="pt-BR"`, fonte do token `--font-sans` do base-ds (já aplicada na etapa 01), `metadata` padrão, header/footer.
 - `src/app/not-found.tsx` com `Heading`, `Text` e `Button` de volta à home.

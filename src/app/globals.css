@@ -1,0 +1,10 @@
+@import 'tailwindcss';
+@import '@indianous/base-ds/styles/v4';
+
+/* O Tailwind v4 ignora node_modules: sem esta linha, as classes usadas
+   dentro dos componentes do base-ds não são geradas. */
+@source '../../node_modules/@indianous/base-ds/dist';
+
+body {
+  @apply bg-background font-sans text-foreground;
+}
