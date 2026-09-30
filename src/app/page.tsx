@@ -1,10 +1,9 @@
-import { Button, Container, Heading, Text } from '@indianous/base-ds'
+import { Button, Heading, Text } from '@indianous/base-ds'
 
-// Página provisória da etapa 01: usa só componentes simples do base-ds para medir
-// quanto JS o pacote leva ao cliente. É substituída pela home na etapa 04.
+// Página provisória: é substituída pela home na etapa 04.
 export default function Home() {
   return (
-    <Container as="main" width="3xl" spacing="relaxed">
+    <div className="flex flex-col items-start gap-4">
       <Heading as="h1" size="3xl">
         Portfólio
       </Heading>
@@ -12,6 +11,6 @@ export default function Home() {
       <Button as="a" href="https://github.com/indianous">
         GitHub
       </Button>
-    </Container>
+    </div>
   )
 }
