@@ -12,6 +12,7 @@ describe('sitemap', () => {
     expect(sitemap().map((entry) => entry.url)).toEqual([
       'https://exemplo.dev/',
       'https://exemplo.dev/about',
+      'https://exemplo.dev/projects',
     ])
   })
 })

@@ -80,7 +80,7 @@ describe('getContactHref', () => {
 })
 
 describe('staticRoutes', () => {
-  it('inclui a home e o /about', () => {
-    expect(staticRoutes).toEqual(['/', '/about'])
+  it('inclui a home, o /about e o /projects', () => {
+    expect(staticRoutes).toEqual(['/', '/about', '/projects'])
   })
 })

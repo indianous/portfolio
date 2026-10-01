@@ -5,51 +5,79 @@ Python etc.), com links para repositório e live preview.
 
 ## 1. Problemas encontrados
 
-- **Qual componente de filtro.** O base-ds tem `FilterDropdown`, `MultiSelect` e `Badge`. Conferir
-  em `dist/index.d.ts` qual cobre seleção múltipla com contagem; preferir o `FilterDropdown`
-  (feito para isso, issue #29 do base-ds).
-- **Filtro compartilhável.** Guardar o filtro na URL (`?tech=react,node`) para o link poder ser
-  enviado a um recrutador, e para o botão "voltar" funcionar.
-- **Página estática com filtro no cliente.** A lista é gerada no build; só o filtro roda no
-  cliente, sobre dados já serializados. Nada de buscar conteúdo no cliente.
+Levantados em 2026-10-01, com o base-ds v0.5.0.
+
+- **Componente do filtro.** O base-ds tem o `FilterDropdown`, que esconde as opções num menu com
+  "Aplicar". Decisão do usuário: **botões de alternar**, com todas as tecnologias à vista. Cada
+  uma é um `Button` do base-ds com `aria-pressed` (`primary` ligado, `outline` desligado), num
+  grupo nativo (`role="group"`, sem equivalente no base-ds) com rótulo. O `FilterDropdown` não é
+  usado, então os rótulos que a 0.5.0 exige não se aplicam.
+- **Filtro compartilhável.** Fica na URL (`?tech=react,node.js`), para o link poder ser enviado a
+  um recrutador. Cada clique faz `history.pushState`, que o Next.js sincroniza com o
+  `useSearchParams`, e o "voltar" desfaz o filtro. O valor na URL é a tecnologia em minúsculas,
+  com hífen no lugar de espaço (`Tailwind CSS` → `tailwind-css`); valores desconhecidos são
+  ignorados.
+- **`useSearchParams` numa página estática.** O Next.js 16 exige um `<Suspense>` em volta, e o
+  que está dentro dele não vai no HTML estático. O `fallback` é a própria vitrine sem filtro, então
+  o HTML pré-renderizado continua com todos os projetos (SEO e primeira pintura); depois da
+  hidratação, o filtro da URL é aplicado.
+- **Página estática com filtro no cliente.** A lista vem do build; só o filtro roda no cliente,
+  sobre os projetos já serializados. Nada de buscar conteúdo no cliente.
+- **Estado vazio não acontece.** O filtro mostra quem tem **qualquer uma** das tecnologias
+  selecionadas, e só oferece tecnologias que existem em algum projeto, então sempre há resultado.
+  Fica o botão "Limpar filtros" sempre que houver seleção, e não há tela de "nenhum projeto".
+- **Links dos cards na mesma aba.** O plano original pedia nova aba com `rel="noopener
+noreferrer"`. Mantido o que já vale no site desde a etapa 02: links na mesma aba, sem surpresa
+  para leitores de tela. O `ProjectCard` da etapa 04 já mostra repositório e versão online só
+  quando existem, com o nome do projeto no rótulo.
+- **Anúncio do resultado.** A contagem ("2 projetos") fica numa região `role="status"`, lida pelo
+  leitor de tela a cada mudança de filtro.
+- **Sitemap.** `/projects` entra em `staticRoutes`.
 
 ## 2. Testes a incluir
 
-**`src/lib/__tests__/filterProjects.test.ts`**
+**`src/lib/__tests__/technologies.test.ts`**
 
-- Sem tecnologias selecionadas, devolve todos.
-- Com várias, devolve projetos que têm **qualquer uma** delas (união, decidido com o usuário).
-- Um projeto que tem duas das tecnologias selecionadas aparece uma vez só.
-- Comparação sem diferenciar maiúsculas (`react` = `React`).
-
-**`src/lib/__tests__/techQuery.test.ts`**
-
-- `parseTechQuery('react,node')` → `['react', 'node']`; ignora vazios e desconhecidos.
-- `serializeTechQuery([])` remove o parâmetro.
+- `toTechSlug('Tailwind CSS')` → `tailwind-css`; `toTechSlug('Node.js')` → `node.js`.
+- `parseTechQuery('react,node.js', technologies)` devolve as tecnologias com a grafia original;
+  ignora vazios, repetidos e desconhecidos; `null` devolve `[]`.
+- `serializeTechQuery([])` → `null`; com tecnologias, os slugs separados por vírgula.
+- `filterProjects(projects, [])` devolve todos.
+- Com várias tecnologias, devolve os projetos que têm qualquer uma, uma vez só, na ordem original.
+- Compara sem diferenciar maiúsculas.
 
 **`src/components/projects/__tests__/ProjectGallery.test.tsx`**
 
-- Selecionar uma tecnologia atualiza a lista e a URL.
-- Estado vazio mostra mensagem e botão "Limpar filtros".
-- A contagem de resultados é anunciada em região `aria-live`.
+- Mostra um botão por tecnologia, com `aria-pressed` refletindo a seleção, num grupo com rótulo.
+- Lista só os projetos filtrados e anuncia a contagem em `role="status"`.
+- Clicar numa tecnologia chama `onSelectedChange` com ela acrescentada (ou retirada, se já
+  estava).
+- "Limpar filtros" só aparece com seleção e chama `onSelectedChange([])`.
 
-**`src/components/projects/__tests__/ProjectCard.test.tsx`**
+**`src/components/projects/__tests__/ProjectShowcase.test.tsx`** (`next/navigation` simulado)
 
-- Links "Código" e "Demo" só aparecem quando `repoUrl`/`liveUrl` existem; abrem em nova aba com
-  `rel="noopener noreferrer"` e rótulo acessível que cita o projeto.
+- Lê a seleção de `?tech=` e filtra a lista.
+- Clicar numa tecnologia grava o filtro na URL com `history.pushState`.
+
+**`src/config/__tests__/site.test.ts`** e **`src/app/__tests__/sitemap.test.ts`**
+
+- `staticRoutes` inclui `/projects`.
 
 ## 3. O que entra no projeto
 
-**Tipos / BFF**
+**Lógica (funções puras)**
 
-- `src/lib/filterProjects.ts`, `src/lib/techQuery.ts` (funções puras).
+- `src/lib/technologies.ts`: `toTechSlug`, `parseTechQuery`, `serializeTechQuery`,
+  `filterProjects`.
 
 **Componentes**
 
-- `ProjectGallery` (client): filtro + grade de `ProjectCard`.
-- `ProjectCard` (da etapa 04) com links de repositório e demo.
+- `ProjectGallery` (client): grupo de botões de filtro, contagem anunciada e grade de
+  `ProjectCard`; recebe a seleção e avisa a mudança.
+- `ProjectShowcase` (client): liga a `ProjectGallery` à URL (`useSearchParams` + `pushState`).
 
 **Páginas**
 
-- `src/app/projects/page.tsx`: carrega `getProjects()` e `getAllTechnologies()` no servidor,
-  passa para `ProjectGallery`, `metadata` própria, rota no sitemap.
+- `src/app/projects/page.tsx`: carrega `getProjects()` e `getAllTechnologies()` no servidor e
+  renderiza `<Suspense fallback={<ProjectGallery … />}><ProjectShowcase … /></Suspense>`;
+  `metadata` com `buildMetadata`; `/projects` no sitemap.

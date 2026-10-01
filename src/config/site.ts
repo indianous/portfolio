@@ -28,7 +28,7 @@ export const siteConfig = {
 } as const
 
 /** Rotas estáticas publicadas no sitemap. Cada etapa acrescenta a sua quando a página existir. */
-export const staticRoutes = ['/', '/about']
+export const staticRoutes = ['/', '/about', '/projects']
 
 type SiteEnv = Record<string, string | undefined>
 
