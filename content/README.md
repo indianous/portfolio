@@ -61,5 +61,5 @@ mais antiga.
 
 ## O que ainda é exemplo
 
-Os posts em `posts/` e as experiências em `experience/` são exemplos para o desenvolvimento das
-próximas etapas: substitua-os por conteúdo real. Os posts de exemplo ficam com `draft: true`.
+Os posts em `posts/` são exemplos para o desenvolvimento das próximas etapas: substitua-os por
+conteúdo real. Eles ficam com `draft: true` e não vão ao ar.
