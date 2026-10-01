@@ -28,7 +28,7 @@ export const siteConfig = {
 } as const
 
 /** Rotas estáticas publicadas no sitemap. Cada etapa acrescenta a sua quando a página existir. */
-export const staticRoutes = ['/']
+export const staticRoutes = ['/', '/about']
 
 type SiteEnv = Record<string, string | undefined>
 
@@ -49,4 +49,12 @@ export function getSocialLinks(env: SiteEnv = process.env): NavLink[] {
     ...(linkedin ? [{ label: 'LinkedIn', href: linkedin }] : []),
     ...(email ? [{ label: 'E-mail', href: `mailto:${email}` }] : []),
   ]
+}
+
+/** Destino do botão "Contato": e-mail, senão LinkedIn. Sem nenhum dos dois, não há botão. */
+export function getContactHref(env: SiteEnv = process.env): string | undefined {
+  const email = env.CONTACT_EMAIL?.trim()
+  const linkedin = env.LINKEDIN_URL?.trim()
+  if (email) return `mailto:${email}`
+  return linkedin || undefined
 }

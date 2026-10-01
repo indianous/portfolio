@@ -7,8 +7,11 @@ describe('sitemap', () => {
     vi.unstubAllEnvs()
   })
 
-  it('lista a home com URL absoluta', () => {
+  it('lista as rotas estáticas com URL absoluta', () => {
     vi.stubEnv('NEXT_PUBLIC_SITE_URL', 'https://exemplo.dev')
-    expect(sitemap().map((entry) => entry.url)).toEqual(['https://exemplo.dev/'])
+    expect(sitemap().map((entry) => entry.url)).toEqual([
+      'https://exemplo.dev/',
+      'https://exemplo.dev/about',
+    ])
   })
 })

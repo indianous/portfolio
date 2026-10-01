@@ -1,6 +1,6 @@
 // @vitest-environment node
 import { describe, expect, it } from 'vitest'
-import { experienceSchema, postSchema, projectSchema } from '@/content/schemas'
+import { experienceSchema, postSchema, profileSchema, projectSchema } from '@/content/schemas'
 
 function without<T extends object>(value: T, key: keyof T) {
   const copy = { ...value }
@@ -77,5 +77,18 @@ describe('experienceSchema', () => {
 
   it('aceita end em AAAA-MM', () => {
     expect(experienceSchema.parse({ ...experience, end: '2025-01' }).end).toBe('2025-01')
+  })
+})
+
+describe('profileSchema', () => {
+  it('exige headline', () => {
+    expect(profileSchema.safeParse({}).success).toBe(false)
+  })
+
+  it('aceita photo e resume opcionais', () => {
+    expect(profileSchema.parse({ headline: 'Frase' })).toEqual({ headline: 'Frase' })
+    expect(
+      profileSchema.parse({ headline: 'Frase', photo: '/foto.jpg', resume: '/curriculo.pdf' }),
+    ).toEqual({ headline: 'Frase', photo: '/foto.jpg', resume: '/curriculo.pdf' })
   })
 })

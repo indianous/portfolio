@@ -59,6 +59,16 @@ Rascunhos aparecem no `npm run dev`, mas não no build de produção.
 O corpo do arquivo é a descrição da experiência. A trajetória é listada da mais recente para a
 mais antiga.
 
+## Perfil — `profile.md`
+
+| Campo      | Obrigatório | Descrição                                                             |
+| ---------- | ----------- | --------------------------------------------------------------------- |
+| `headline` | sim         | Frase de apresentação, logo abaixo do nome na home.                   |
+| `photo`    | não         | Foto, a partir de `public/`. Sem ela, a home fica só com texto.       |
+| `resume`   | não         | Currículo em PDF, a partir de `public/`. Sem ele, o link não aparece. |
+
+O corpo do arquivo é o resumo da página "Sobre".
+
 ## O que ainda é exemplo
 
 Os posts em `posts/` são exemplos para o desenvolvimento das próximas etapas: substitua-os por

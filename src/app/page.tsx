@@ -1,16 +1,17 @@
-import { Button, Heading, Text } from '@indianous/base-ds'
+import { FeaturedProjects } from '@/components/home/FeaturedProjects'
+import { Hero } from '@/components/home/Hero'
+import { LatestPosts } from '@/components/home/LatestPosts'
+import { getContactHref } from '@/config/site'
+import { getPosts, getProfile, getProjects } from '@/content/loaders'
 
-// Página provisória: é substituída pela home na etapa 04.
-export default function Home() {
+export default async function Home() {
+  const [profile, projects, posts] = await Promise.all([getProfile(), getProjects(), getPosts()])
+
   return (
-    <div className="flex flex-col items-start gap-4">
-      <Heading as="h1" size="3xl">
-        Portfólio
-      </Heading>
-      <Text color="muted">Em construção.</Text>
-      <Button as="a" href="https://github.com/indianous">
-        GitHub
-      </Button>
-    </div>
+    <>
+      <Hero headline={profile.headline} photo={profile.photo} contactHref={getContactHref()} />
+      <FeaturedProjects projects={projects} />
+      <LatestPosts posts={posts} />
+    </>
   )
 }

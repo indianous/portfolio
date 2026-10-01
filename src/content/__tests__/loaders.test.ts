@@ -6,6 +6,7 @@ import {
   getExperience,
   getPostBySlug,
   getPosts,
+  getProfile,
   getProjectBySlug,
   getProjects,
 } from '@/content/loaders'
@@ -85,10 +86,19 @@ describe('getExperience', () => {
   })
 })
 
+describe('getProfile', () => {
+  it('lê profile.md com o corpo', async () => {
+    const profile = await getProfile({ dir })
+    expect(profile.headline).toBe('Frase de apresentação.')
+    expect(profile.body.trim()).toBe('Resumo do perfil.')
+  })
+})
+
 describe('conteúdo do site (content/)', () => {
   it('tem frontmatter válido em todos os arquivos', async () => {
     await expect(getProjects()).resolves.not.toHaveLength(0)
     await expect(getPosts({ includeDrafts: true })).resolves.not.toHaveLength(0)
     await expect(getExperience()).resolves.not.toHaveLength(0)
+    await expect(getProfile()).resolves.toHaveProperty('headline')
   })
 })

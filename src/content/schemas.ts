@@ -37,6 +37,15 @@ export const experienceSchema = z.object({
   technologies: z.array(z.string().min(1)).default([]),
 })
 
+export const profileSchema = z.object({
+  /** Frase de apresentação da home. */
+  headline: z.string().min(1),
+  /** Foto, a partir de `public/`. */
+  photo: z.string().min(1).optional(),
+  /** Currículo em PDF, a partir de `public/`. */
+  resume: z.string().min(1).optional(),
+})
+
 interface Entry {
   /** Nome do arquivo, sem `.md`. */
   slug: string
@@ -47,3 +56,4 @@ interface Entry {
 export type Project = z.infer<typeof projectSchema> & Entry & { hasCaseStudy: boolean }
 export type Post = z.infer<typeof postSchema> & Entry
 export type Experience = z.infer<typeof experienceSchema> & Entry
+export type Profile = z.infer<typeof profileSchema> & Pick<Entry, 'body'>

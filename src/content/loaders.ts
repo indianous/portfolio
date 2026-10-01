@@ -6,9 +6,11 @@ import { z } from 'zod'
 import {
   experienceSchema,
   postSchema,
+  profileSchema,
   projectSchema,
   type Experience,
   type Post,
+  type Profile,
   type Project,
 } from '@/content/schemas'
 
@@ -24,7 +26,20 @@ interface PostOptions extends LoaderOptions {
   includeDrafts?: boolean
 }
 
-/** Lê e valida todos os `.md` de uma pasta. Frontmatter inválido falha com o caminho do arquivo. */
+/** Lê e valida um `.md`. Frontmatter inválido falha com o caminho do arquivo. */
+async function loadFile<T extends object>(
+  path: string,
+  schema: z.ZodType<T>,
+): Promise<T & { body: string }> {
+  const { data, content } = matter(await readFile(path, 'utf8'))
+  const parsed = schema.safeParse(data)
+  if (!parsed.success) {
+    throw new Error(`Frontmatter inválido em ${path}:\n${z.prettifyError(parsed.error)}`)
+  }
+  return { ...parsed.data, body: content }
+}
+
+/** Lê e valida todos os `.md` de uma pasta, com o nome do arquivo como slug. */
 async function loadCollection<T extends object>(
   dir: string,
   folder: string,
@@ -34,15 +49,10 @@ async function loadCollection<T extends object>(
   const files = (await readdir(folderPath)).filter((file) => file.endsWith('.md')).sort()
 
   return Promise.all(
-    files.map(async (file) => {
-      const path = join(folderPath, file)
-      const { data, content } = matter(await readFile(path, 'utf8'))
-      const parsed = schema.safeParse(data)
-      if (!parsed.success) {
-        throw new Error(`Frontmatter inválido em ${path}:\n${z.prettifyError(parsed.error)}`)
-      }
-      return { ...parsed.data, slug: file.slice(0, -'.md'.length), body: content }
-    }),
+    files.map(async (file) => ({
+      ...(await loadFile(join(folderPath, file), schema)),
+      slug: file.slice(0, -'.md'.length),
+    })),
   )
 }
 
@@ -92,4 +102,8 @@ export async function getExperience({ dir = CONTENT_DIR }: LoaderOptions = {}): 
 > {
   const experience = await loadCollection(dir, 'experience', experienceSchema)
   return experience.sort((a, b) => b.start.localeCompare(a.start))
+}
+
+export async function getProfile({ dir = CONTENT_DIR }: LoaderOptions = {}): Promise<Profile> {
+  return loadFile(join(dir, 'profile.md'), profileSchema)
 }

@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest'
-import { getSiteUrl, getSocialLinks, siteConfig } from '@/config/site'
+import { getContactHref, getSiteUrl, getSocialLinks, siteConfig, staticRoutes } from '@/config/site'
 
 describe('getSiteUrl', () => {
   it('usa NEXT_PUBLIC_SITE_URL sem barra final', () => {
@@ -55,5 +55,32 @@ describe('getSocialLinks', () => {
       label: 'E-mail',
       href: 'mailto:contato@exemplo.dev',
     })
+  })
+})
+
+describe('getContactHref', () => {
+  it('prefere o e-mail', () => {
+    expect(
+      getContactHref({
+        CONTACT_EMAIL: ' eu@exemplo.dev ',
+        LINKEDIN_URL: 'https://linkedin.com/in/eu',
+      }),
+    ).toBe('mailto:eu@exemplo.dev')
+  })
+
+  it('usa o LinkedIn quando não há e-mail', () => {
+    expect(getContactHref({ LINKEDIN_URL: 'https://linkedin.com/in/eu' })).toBe(
+      'https://linkedin.com/in/eu',
+    )
+  })
+
+  it('devolve undefined sem e-mail nem LinkedIn', () => {
+    expect(getContactHref({ CONTACT_EMAIL: '  ' })).toBeUndefined()
+  })
+})
+
+describe('staticRoutes', () => {
+  it('inclui a home e o /about', () => {
+    expect(staticRoutes).toEqual(['/', '/about'])
   })
 })
