@@ -1,8 +1,10 @@
 import { Badge, Button, Heading } from '@indianous/base-ds'
 import { Timeline } from '@/components/about/Timeline'
+import { GitHubSection } from '@/components/github/GitHubSection'
 import { siteConfig } from '@/config/site'
 import { getAllTechnologies, getExperience, getProfile } from '@/content/loaders'
 import { renderMarkdown } from '@/content/markdown'
+import { getGitHubProfile } from '@/lib/github/client'
 import { buildMetadata } from '@/lib/seo'
 
 export const metadata = buildMetadata({
@@ -12,10 +14,11 @@ export const metadata = buildMetadata({
 })
 
 export default async function AboutPage() {
-  const [profile, experience, projectTechnologies] = await Promise.all([
+  const [profile, experience, projectTechnologies, github] = await Promise.all([
     getProfile(),
     getExperience(),
     getAllTechnologies(),
+    getGitHubProfile(),
   ])
   const summary = await renderMarkdown(profile.body)
   const timeline = await Promise.all(
@@ -62,6 +65,8 @@ export default async function AboutPage() {
           ))}
         </ul>
       </section>
+
+      <GitHubSection profile={github} />
     </div>
   )
 }
