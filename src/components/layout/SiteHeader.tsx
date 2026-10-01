@@ -3,6 +3,7 @@
 import { Button, Navbar } from '@indianous/base-ds'
 import Link from 'next/link'
 import { usePathname } from 'next/navigation'
+import { ThemeToggle } from '@/components/theme/ThemeToggle'
 import { siteConfig } from '@/config/site'
 
 function isActive(pathname: string, href: string) {
@@ -17,6 +18,7 @@ export function SiteHeader() {
       {...siteConfig.navLabels}
       sticky
       linkComponent={Link}
+      actions={[<ThemeToggle key="tema" />]}
       logo={
         <Button asChild variant="ghost">
           <Link href="/">{siteConfig.name}</Link>

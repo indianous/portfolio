@@ -70,4 +70,9 @@ describe('SiteHeader', () => {
     expect(drawer).toBeInTheDocument()
     expect(screen.getByRole('button', { name: 'Fechar' })).toBeInTheDocument()
   })
+
+  it('tem o botão de tema', () => {
+    render(<SiteHeader />)
+    expect(screen.getAllByRole('button', { name: /Ativar tema/ }).length).toBeGreaterThan(0)
+  })
 })
