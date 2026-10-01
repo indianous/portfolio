@@ -1,7 +1,15 @@
 import { render, screen, within } from '@testing-library/react'
-import { describe, expect, it } from 'vitest'
+import { describe, expect, it, vi } from 'vitest'
 import { siteConfig, type NavLink } from '@/config/site'
 import { SiteFooter } from '@/components/layout/SiteFooter'
+
+vi.mock('next/link', () => ({
+  default: ({ href, children, ...rest }: React.ComponentProps<'a'>) => (
+    <a href={href} data-next-link="" {...rest}>
+      {children}
+    </a>
+  ),
+}))
 
 const social: NavLink[] = [
   { label: 'GitHub', href: siteConfig.github },
@@ -33,6 +41,14 @@ describe('SiteFooter', () => {
       'href',
       'mailto:contato@exemplo.dev',
     )
+  })
+
+  it('navega pelo Link do Next.js, sem recarregar a página', () => {
+    render(<SiteFooter year={2026} social={social} />)
+    const nav = screen.getByRole('navigation', { name: 'Navegação' })
+    for (const name of ['Projetos', 'Blog', 'Sobre']) {
+      expect(within(nav).getByRole('link', { name })).toHaveAttribute('data-next-link')
+    }
   })
 
   it('mostra o copyright com o ano e o nome do desenvolvedor', () => {

@@ -14,7 +14,7 @@
     "format:check": "prettier --check ."
   },
   "dependencies": {
-    "@indianous/base-ds": "^0.4.7",
+    "@indianous/base-ds": "^0.4.14",
     "next": "16.3.6",
     "react": "19.2.8",
     "react-dom": "19.2.8"

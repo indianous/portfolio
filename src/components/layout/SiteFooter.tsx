@@ -1,4 +1,5 @@
 import { Footer } from '@indianous/base-ds'
+import { AppLink } from '@/components/AppLink'
 import { siteConfig, type NavLink } from '@/config/site'
 
 interface SiteFooterProps {
@@ -9,6 +10,7 @@ interface SiteFooterProps {
 export function SiteFooter({ year, social }: SiteFooterProps) {
   return (
     <Footer
+      linkComponent={AppLink}
       columns={[
         { title: 'Navegação', links: [...siteConfig.nav] },
         { title: 'Redes', links: social },

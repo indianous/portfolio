@@ -15,6 +15,16 @@ export const siteConfig = {
     { label: 'Blog', href: '/blog' },
     { label: 'Sobre', href: '/about' },
   ] satisfies NavLink[],
+  /** Textos de acessibilidade do menu (o Navbar do base-ds usa inglês por padrão). */
+  navLabels: {
+    label: 'Navegação principal',
+    menuButtonLabel: 'Abrir menu de navegação',
+    actionsButtonLabel: 'Mais ações',
+    menuTitle: 'Menu',
+    actionsTitle: 'Ações',
+    drawerCloseLabel: 'Fechar',
+    drawerDismissLabel: 'Fechar painel',
+  },
 } as const
 
 /** Rotas estáticas publicadas no sitemap. Cada etapa acrescenta a sua quando a página existir. */
