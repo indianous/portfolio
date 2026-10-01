@@ -5,10 +5,12 @@ interface PageSeo {
   title?: string
   description?: string
   path: string
+  /** Imagem do Open Graph (a capa de um projeto), a partir de `public/`. */
+  image?: { url: string; alt: string }
 }
 
 export function buildMetadata(
-  { title, description = siteConfig.description, path }: PageSeo,
+  { title, description = siteConfig.description, path, image }: PageSeo,
   siteUrl = getSiteUrl(),
 ): Metadata {
   const fullTitle = title
@@ -26,7 +28,8 @@ export function buildMetadata(
       url,
       siteName: siteConfig.name,
       locale: siteConfig.locale,
-      type: 'website',
+      type: image ? 'article' : 'website',
+      ...(image && { images: [{ url: new URL(image.url, siteUrl).toString(), alt: image.alt }] }),
     },
   }
 }

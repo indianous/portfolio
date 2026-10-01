@@ -9,8 +9,10 @@ import remarkParse from 'remark-parse'
 import remarkRehype from 'remark-rehype'
 import { unified } from 'unified'
 import { markdownComponents } from '@/components/content/markdown-components'
+import { rehypeHighlight } from '@/content/highlight'
 
-// O slug roda depois da sanitização, que prefixaria os ids com `user-content-`.
+// O slug roda depois da sanitização, que prefixaria os ids com `user-content-`; o realce, também
+// depois, porque o HTML do Shiki não passaria por ela.
 const processor = unified()
   .use(remarkParse)
   .use(remarkGfm)
@@ -18,6 +20,7 @@ const processor = unified()
   .use(rehypeSanitize)
   .use(rehypeSlug)
   .use(rehypeUnwrapImages)
+  .use(rehypeHighlight)
 
 /** Converte Markdown em componentes no servidor, sem levar o parser ao navegador. */
 export async function renderMarkdown(markdown: string) {

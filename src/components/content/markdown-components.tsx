@@ -1,41 +1,45 @@
-import { Heading, Image, Text } from '@indianous/base-ds'
+import { Code, CodeBlock, Heading, Image, Text } from '@indianous/base-ds'
 import type { Components } from 'hast-util-to-jsx-runtime'
 import { AppLink } from '@/components/AppLink'
 
-// Elemento do Markdown → componente. Títulos, parágrafos, imagens e links usam o base-ds; listas,
-// citações, código, tabelas e divisórias não têm equivalente nele e ficam nativos, só com tokens.
-// Código sem realce até o base-ds ter tokens para isso (indianous/base-ds#59).
+// Elemento do Markdown → componente. Títulos, parágrafos, imagens, links e código usam o base-ds;
+// listas, citações, tabelas e divisórias não têm equivalente nele e ficam nativos, só com tokens.
+// Os blocos de código chegam já realçados pelo plugin `rehypeHighlight` (data-* no `<pre>`).
+
+// Recuo ao seguir uma âncora (o índice do estudo de caso): o Navbar fixo tem h-14, e o título
+// para logo abaixo dele, com folga.
+const headingClassName = 'scroll-mt-16'
 
 const linkClassName = 'text-primary underline underline-offset-2 hover:text-primary-hover'
 
 export const markdownComponents: Components = {
   h1: ({ children, id }) => (
-    <Heading as="h2" size="3xl" id={id}>
+    <Heading as="h2" size="3xl" id={id} className={headingClassName}>
       {children}
     </Heading>
   ),
   h2: ({ children, id }) => (
-    <Heading as="h2" size="2xl" id={id}>
+    <Heading as="h2" size="2xl" id={id} className={headingClassName}>
       {children}
     </Heading>
   ),
   h3: ({ children, id }) => (
-    <Heading as="h3" size="xl" id={id}>
+    <Heading as="h3" size="xl" id={id} className={headingClassName}>
       {children}
     </Heading>
   ),
   h4: ({ children, id }) => (
-    <Heading as="h4" size="xl" weight="medium" id={id}>
+    <Heading as="h4" size="xl" weight="medium" id={id} className={headingClassName}>
       {children}
     </Heading>
   ),
   h5: ({ children, id }) => (
-    <Heading as="h5" size="xl" weight="medium" id={id}>
+    <Heading as="h5" size="xl" weight="medium" id={id} className={headingClassName}>
       {children}
     </Heading>
   ),
   h6: ({ children, id }) => (
-    <Heading as="h6" size="xl" weight="medium" id={id}>
+    <Heading as="h6" size="xl" weight="medium" id={id} className={headingClassName}>
       {children}
     </Heading>
   ),
@@ -58,24 +62,17 @@ export const markdownComponents: Components = {
       {children}
     </blockquote>
   ),
-  // tabIndex: blocos com rolagem horizontal precisam ser alcançáveis pelo teclado.
-  pre: ({ children }) => (
-    <pre
-      tabIndex={0}
-      className="overflow-x-auto rounded-md bg-muted p-4 font-mono text-sm [&>code]:bg-transparent [&>code]:p-0"
-    >
-      {children}
-    </pre>
-  ),
-  code: ({ children, className }) => (
-    <code
-      className={['rounded-sm bg-muted px-1 font-mono text-sm', className]
-        .filter(Boolean)
-        .join(' ')}
-    >
-      {children}
-    </code>
-  ),
+  pre: (props) => {
+    const data = props as Record<string, string | undefined>
+    const language = data['data-language']
+    const html = data['data-html']
+    return html && language ? (
+      <CodeBlock html={html} language={language} label={`Código em ${language}`} />
+    ) : (
+      <CodeBlock label="Bloco de código">{data['data-code'] ?? ''}</CodeBlock>
+    )
+  },
+  code: ({ children }) => <Code>{children}</Code>,
   table: ({ children }) => (
     <div tabIndex={0} className="overflow-x-auto">
       <table className="w-full border-collapse text-sm">{children}</table>

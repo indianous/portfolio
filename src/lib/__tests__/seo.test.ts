@@ -34,4 +34,15 @@ describe('buildMetadata', () => {
   it('sem descrição, usa a descrição do site', () => {
     expect(buildMetadata({ path: '/' }, siteUrl).description).toBe(siteConfig.description)
   })
+
+  it('com imagem, põe a capa no Open Graph e usa o tipo article', () => {
+    const metadata = buildMetadata(
+      { title: 'Alfa', path: '/projects/alfa', image: { url: '/images/alfa.png', alt: 'Tela' } },
+      siteUrl,
+    )
+    expect(metadata.openGraph).toMatchObject({
+      type: 'article',
+      images: [{ url: 'https://exemplo.dev/images/alfa.png', alt: 'Tela' }],
+    })
+  })
 })

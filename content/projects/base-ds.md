@@ -6,6 +6,11 @@ date: 2026-07-02
 repoUrl: https://github.com/indianous/base-ds
 featured: true
 order: 1
+highlights:
+  - value: −95%
+    label: de JavaScript numa página com o base-ds (de 949 KB para 48 KB)
+  - value: 2 temas
+    label: claro e escuro, com o contraste verificado em testes
 ---
 
 ## Problema
@@ -19,6 +24,18 @@ diferentes e acessibilidade irregular.
   v3 e v4.
 - Tema escuro trocando só os tokens semânticos, com o contraste verificado nos dois temas.
 - Build dividido por componente: o app leva ao navegador só o que usa.
+- Realce de código com tokens próprios, no formato do tema `css-variables` do Shiki:
+
+```ts
+import { codeToHtml, createCssVariablesTheme } from 'shiki'
+
+const baseDsTheme = createCssVariablesTheme({
+  name: 'base-ds',
+  variablePrefix: '--color-code-',
+})
+
+const html = await codeToHtml(code, { lang: 'ts', theme: baseDsTheme })
+```
 
 ## Resultados
 

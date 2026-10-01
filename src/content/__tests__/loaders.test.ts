@@ -3,6 +3,7 @@ import { join } from 'node:path'
 import { describe, expect, it } from 'vitest'
 import {
   getAllTechnologies,
+  getCaseStudies,
   getExperience,
   getPostBySlug,
   getPosts,
@@ -13,6 +14,7 @@ import {
 
 const dir = join(__dirname, 'fixtures', 'valid')
 const invalidDir = join(__dirname, 'fixtures', 'invalid')
+const invalidCaseStudyDir = join(__dirname, 'fixtures', 'invalid-case-study')
 
 describe('getProjects', () => {
   it('usa o nome do arquivo como slug e ordena por order e depois pela data mais recente', async () => {
@@ -30,6 +32,18 @@ describe('getProjects', () => {
 
   it('falha com o caminho do arquivo quando o frontmatter é inválido', async () => {
     await expect(getProjects({ dir: invalidDir })).rejects.toThrow(/projects[/\\]sem-titulo\.md/)
+  })
+})
+
+describe('estudos de caso', () => {
+  it('falha quando faltam as seções obrigatórias, com o arquivo e as seções', async () => {
+    await expect(getProjects({ dir: invalidCaseStudyDir })).rejects.toThrow(
+      /projects[/\\]incompleto\.md[\s\S]*## Arquitetura, ## Resultados/,
+    )
+  })
+
+  it('getCaseStudies devolve só os projetos com estudo de caso', async () => {
+    expect((await getCaseStudies({ dir })).map((p) => p.slug)).toEqual(['beta'])
   })
 })
 

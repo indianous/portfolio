@@ -16,6 +16,7 @@ const project = {
   repoUrl: 'https://github.com/indianous/projeto',
   liveUrl: 'https://projeto.dev',
   cover: '/images/projeto.png',
+  coverAlt: 'Tela do projeto',
   featured: true,
   order: 1,
 }
@@ -36,6 +37,21 @@ describe('projectSchema', () => {
 
   it('não destaca o projeto por padrão', () => {
     expect(projectSchema.parse(without(project, 'featured')).featured).toBe(false)
+  })
+
+  it('exige coverAlt quando há cover', () => {
+    expect(projectSchema.safeParse(without(project, 'coverAlt')).success).toBe(false)
+    expect(projectSchema.safeParse(without(without(project, 'coverAlt'), 'cover')).success).toBe(
+      true,
+    )
+  })
+
+  it('aceita destaques com valor e rótulo', () => {
+    const highlights = [{ value: '−95%', label: 'de JS' }]
+    expect(projectSchema.parse({ ...project, highlights }).highlights).toEqual(highlights)
+    expect(projectSchema.safeParse({ ...project, highlights: [{ value: '−95%' }] }).success).toBe(
+      false,
+    )
   })
 
   it('rejeita repoUrl que não é URL', () => {

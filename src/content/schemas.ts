@@ -8,17 +8,27 @@ const isoDate = z.preprocess(
 
 const yearMonth = z.string().regex(/^\d{4}-(0[1-9]|1[0-2])$/, 'Use o formato AAAA-MM')
 
-export const projectSchema = z.object({
-  title: z.string().min(1),
-  summary: z.string().min(1),
-  technologies: z.array(z.string().min(1)).min(1),
-  date: isoDate,
-  repoUrl: z.url().optional(),
-  liveUrl: z.url().optional(),
-  cover: z.string().min(1).optional(),
-  featured: z.boolean().default(false),
-  order: z.number().int().optional(),
-})
+export const projectSchema = z
+  .object({
+    title: z.string().min(1),
+    summary: z.string().min(1),
+    technologies: z.array(z.string().min(1)).min(1),
+    date: isoDate,
+    repoUrl: z.url().optional(),
+    liveUrl: z.url().optional(),
+    cover: z.string().min(1).optional(),
+    coverAlt: z.string().min(1).optional(),
+    featured: z.boolean().default(false),
+    order: z.number().int().optional(),
+    /** Resultados em números, mostrados antes do estudo de caso. */
+    highlights: z
+      .array(z.object({ value: z.string().min(1), label: z.string().min(1) }))
+      .optional(),
+  })
+  .refine((project) => !project.cover || project.coverAlt, {
+    message: 'cover exige coverAlt (texto alternativo da capa)',
+    path: ['coverAlt'],
+  })
 
 export const postSchema = z.object({
   title: z.string().min(1),
