@@ -8,3 +8,12 @@
 body {
   @apply bg-background font-sans text-foreground;
 }
+
+/* Conteúdo animado pelo <Reveal>: o Motion grava o estado inicial (oculto) como estilo inline já
+   no HTML. Sem JavaScript ou com movimento reduzido, ele aparece direto, no lugar. */
+@media (scripting: none), (prefers-reduced-motion: reduce) {
+  [data-reveal] {
+    opacity: 1 !important;
+    transform: none !important;
+  }
+}

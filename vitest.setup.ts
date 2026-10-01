@@ -22,3 +22,19 @@ if (typeof window !== 'undefined' && !window.matchMedia) {
       dispatchEvent: () => false,
     }) as MediaQueryList
 }
+
+// O jsdom não tem IntersectionObserver (usado pelo whileInView do Motion). Este nunca dispara: os
+// elementos se comportam como se ainda estivessem fora da tela.
+if (typeof window !== 'undefined' && !window.IntersectionObserver) {
+  window.IntersectionObserver = class {
+    readonly root = null
+    readonly rootMargin = ''
+    readonly thresholds = []
+    observe() {}
+    unobserve() {}
+    disconnect() {}
+    takeRecords() {
+      return []
+    }
+  } as unknown as typeof IntersectionObserver
+}

@@ -1,6 +1,9 @@
 'use client'
 
+import { useState } from 'react'
 import { Button, Text } from '@indianous/base-ds'
+import { Reveal } from '@/components/motion/Reveal'
+import { staggerDelay } from '@/components/motion/variants'
 import { ProjectCard } from '@/components/projects/ProjectCard'
 import type { Project } from '@/content/schemas'
 import { filterProjects } from '@/lib/technologies'
@@ -28,9 +31,17 @@ export function ProjectGallery({
   onSelectedChange,
 }: ProjectGalleryProps) {
   const visible = filterProjects(projects, selected)
+  // Os primeiros cards estão acima da dobra e não podem começar ocultos (LCP): só os que entram
+  // depois de um filtro animam.
+  const [hasFiltered, setHasFiltered] = useState(false)
+
+  function change(next: string[]) {
+    setHasFiltered(true)
+    onSelectedChange?.(next)
+  }
 
   function toggle(technology: string) {
-    onSelectedChange?.(
+    change(
       selected.includes(technology)
         ? selected.filter((item) => item !== technology)
         : [...selected, technology],
@@ -59,7 +70,7 @@ export function ProjectGallery({
             )
           })}
           {selected.length > 0 && (
-            <Button size="sm" variant="ghost" onClick={() => onSelectedChange?.([])}>
+            <Button size="sm" variant="ghost" onClick={() => change([])}>
               Limpar filtros
             </Button>
           )}
@@ -71,10 +82,15 @@ export function ProjectGallery({
       </Text>
 
       <ul className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
-        {visible.map((project) => (
-          <li key={project.slug}>
+        {visible.map((project, index) => (
+          <Reveal
+            as="li"
+            key={project.slug}
+            animateEntry={hasFiltered}
+            delay={hasFiltered ? staggerDelay(index) : 0}
+          >
             <ProjectCard project={project} />
-          </li>
+          </Reveal>
         ))}
       </ul>
     </div>

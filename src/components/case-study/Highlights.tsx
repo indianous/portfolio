@@ -1,4 +1,6 @@
 import { Card, Text } from '@indianous/base-ds'
+import { Reveal } from '@/components/motion/Reveal'
+import { staggerDelay } from '@/components/motion/variants'
 import type { Project } from '@/content/schemas'
 
 interface HighlightsProps {
@@ -10,8 +12,8 @@ export function Highlights({ highlights }: HighlightsProps) {
 
   return (
     <ul aria-label="Resultados em destaque" className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
-      {highlights.map(({ value, label }) => (
-        <li key={`${value}-${label}`}>
+      {highlights.map(({ value, label }, index) => (
+        <Reveal as="li" key={`${value}-${label}`} delay={staggerDelay(index)}>
           <Card variant="outlined" className="h-full">
             <Text as="span" size="lg" weight="bold" className="block text-primary">
               {value}
@@ -20,7 +22,7 @@ export function Highlights({ highlights }: HighlightsProps) {
               {label}
             </Text>
           </Card>
-        </li>
+        </Reveal>
       ))}
     </ul>
   )

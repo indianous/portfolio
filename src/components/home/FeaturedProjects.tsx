@@ -1,5 +1,7 @@
 import { Heading } from '@indianous/base-ds'
 import { ButtonLink } from '@/components/ButtonLink'
+import { Reveal } from '@/components/motion/Reveal'
+import { staggerDelay } from '@/components/motion/variants'
 import { ProjectCard } from '@/components/projects/ProjectCard'
 import type { Project } from '@/content/schemas'
 
@@ -24,10 +26,10 @@ export function FeaturedProjects({ projects }: FeaturedProjectsProps) {
         </ButtonLink>
       </div>
       <ul className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
-        {featured.map((project) => (
-          <li key={project.slug}>
+        {featured.map((project, index) => (
+          <Reveal as="li" key={project.slug} delay={staggerDelay(index)}>
             <ProjectCard project={project} />
-          </li>
+          </Reveal>
         ))}
       </ul>
     </section>

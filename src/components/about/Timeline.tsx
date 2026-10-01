@@ -1,5 +1,6 @@
 import type { ReactNode } from 'react'
 import { Badge, Heading, Text } from '@indianous/base-ds'
+import { Reveal } from '@/components/motion/Reveal'
 import type { Experience } from '@/content/schemas'
 import { formatYearMonth } from '@/lib/dates'
 
@@ -24,7 +25,7 @@ export function Timeline({ items }: TimelineProps) {
   return (
     <ol aria-label="Trajetória" className="flex flex-col gap-8 border-l-2 border-border pl-6">
       {sorted.map(({ experience, description }) => (
-        <li key={experience.slug} className="flex flex-col gap-2">
+        <Reveal as="li" key={experience.slug} className="flex flex-col gap-2">
           <Text as="span" size="sm" color="muted">
             {period(experience)}
           </Text>
@@ -47,7 +48,7 @@ export function Timeline({ items }: TimelineProps) {
               ))}
             </ul>
           )}
-        </li>
+        </Reveal>
       ))}
     </ol>
   )

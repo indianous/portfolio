@@ -1,7 +1,9 @@
+import { useState } from 'react'
 import { render, screen, within } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import { describe, expect, it, vi } from 'vitest'
 import { makeProject } from '../../../../__tests__/stubs/content'
+import { MotionProvider } from '@/components/motion/MotionProvider'
 import { ProjectGallery } from '@/components/projects/ProjectGallery'
 
 vi.mock('next/link', () => import('../../../../__tests__/stubs/next-link'))
@@ -90,5 +92,27 @@ describe('ProjectGallery', () => {
     )
     await userEvent.click(screen.getByRole('button', { name: 'Limpar filtros' }))
     expect(onSelectedChange).toHaveBeenLastCalledWith([])
+  })
+
+  it('anima só os cards que entram ao filtrar, não os da primeira renderização', async () => {
+    function Controlled() {
+      const [selected, setSelected] = useState<string[]>(['Python'])
+      return (
+        <MotionProvider>
+          <ProjectGallery
+            projects={projects}
+            technologies={technologies}
+            selected={selected}
+            onSelectedChange={setSelected}
+          />
+        </MotionProvider>
+      )
+    }
+    render(<Controlled />)
+    const card = (title: string) => screen.getByRole('heading', { name: title }).closest('li')
+    expect(card('Beta')).not.toHaveStyle({ opacity: '0' })
+
+    await userEvent.click(screen.getByRole('button', { name: 'Python' }))
+    expect(card('Alfa')).toHaveStyle({ opacity: '0' })
   })
 })
