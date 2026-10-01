@@ -20,7 +20,7 @@ jobs:
       - run: npm ci
       # Sem GITHUB_TOKEN: a seção do GitHub não aparece, como na CI de testes.
       - run: npm run build
-      # Mediana de 3 rodadas por página; limites em lighthouserc.json.
+      # Melhor de 3 rodadas por página (o padrão do lhci); limites em lighthouserc.json.
       - run: npx --yes @lhci/cli@0.15.1 autorun
       - uses: actions/upload-artifact@v7
         if: always()

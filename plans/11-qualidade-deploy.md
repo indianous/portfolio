@@ -25,8 +25,9 @@ Medido em 2026-10-01 com Lighthouse 13.5.0 (perfil móvel, simulado) sobre o `ne
 - **Piso do framework.** Mesmo assim, a performance fica entre 99 e 100 (três rodadas por página:
   LCP 1,7–2,0 s, TBT 60–70 ms). A única tarefa longa (~120 ms) e ~114 KB dos ~173 KB de JS
   transferidos são do próprio Next.js/React (roteador e hidratação), não do código do app.
-  **Decisão do usuário:** o Lighthouse CI falha abaixo de 99 em performance (mediana de 3 rodadas)
-  e abaixo de 100 nas outras categorias; a meta de 100 continua valendo e aparece no relatório.
+  **Decisão do usuário:** o Lighthouse CI falha abaixo de 98 em performance e abaixo de 100 nas
+  outras categorias; a meta de 100 continua valendo e aparece no relatório. (Começou em 99; ver o
+  item sobre a CI abaixo.)
 - **A `/projects` reprovou na primeira execução da CI** (96, 97 e 98; as outras páginas passaram).
   O `<Suspense>` exigido pelo `useSearchParams` (etapa 05) fazia a hidratação trocar o HTML
   estático inteiro da vitrine pela versão do cliente: o elemento do LCP saía do DOM e a troca
@@ -36,6 +37,12 @@ Medido em 2026-10-01 com Lighthouse 13.5.0 (perfil móvel, simulado) sobre o `ne
   Localmente, a `/projects` foi de TBT 70 ms para 30 ms e de 99 fixo para 99–100. O artefato com os
   relatórios também não subia: o `upload-artifact` ignora pastas ocultas sem
   `include-hidden-files: true`.
+- **Ruído da simulação no runner.** Na segunda execução da CI, a `/projects` passou e a home
+  reprovou (80, 98, 98). Os relatórios mostram que o `lhci` 0.15.1 usa o Lighthouse 12.6.1 (não o
+  13.5.0 local) e que a mesma página, no mesmo build, alterna entre LCP simulado de 1,7–1,9 s e
+  2,3–2,4 s, com o mesmo elemento e LCP observado de ~100 ms; a primeira rodada (máquina fria) chega
+  a TBT de 700–800 ms. O `lhci` já usa a melhor rodada nas asserções. Decisão do usuário: baixar o
+  limite de performance da CI para 98.
 - **Segredos.** `GITHUB_PACKAGES_TOKEN` (instalar o base-ds no build) e `GITHUB_TOKEN` (etapa 08)
   precisam existir na Vercel. Na CI do Lighthouse o build roda sem `GITHUB_TOKEN` (a seção do
   GitHub some), como na CI de testes.
@@ -71,7 +78,7 @@ Medido em 2026-10-01 com Lighthouse 13.5.0 (perfil móvel, simulado) sobre o `ne
 
 **`lighthouserc.json`** (Lighthouse CI, perfil móvel, mediana de 3 rodadas)
 
-- Acessibilidade, boas práticas e SEO = 100 e performance ≥ 99 nas páginas principais.
+- Acessibilidade, boas práticas e SEO = 100 e performance ≥ 98 nas páginas principais.
 
 ## 3. O que entra no projeto
 
