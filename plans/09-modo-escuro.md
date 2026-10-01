@@ -5,13 +5,14 @@ lembrando a escolha do visitante.
 
 ## 1. Problemas encontrados
 
-- **Bloqueio: o base-ds não tem tema escuro.** `src/styles/theme.css` e `theme-v4.css` definem os
-  tokens só em `:root`. Pelo `CLAUDE.md`, não se contorna isso no app (sem sobrescrever as
-  variáveis localmente). Esta etapa só começa depois que a issue [indianous/base-ds#52](https://github.com/indianous/base-ds/issues/52) for resolvida
-  e publicada.
-- **O que pedir na issue:** tokens escuros sob uma classe (`.dark`) ou atributo
-  (`[data-theme="dark"]`), mantendo o teste de contraste (`src/tokens/contrast.test.ts`) nos dois
-  temas, e a variante `dark` configurada no bloco `@theme` do v4.
+- ~~**Bloqueio: o base-ds não tem tema escuro.**~~ Resolvido na v0.4.10
+  ([indianous/base-ds#52](https://github.com/indianous/base-ds/issues/52)). Com a classe `dark` no
+  `<html>`, os tokens semânticos de cor trocam para a paleta escura; o `theme.css` define o
+  `color-scheme` de cada tema, e o `theme-v4.css` (já importado em `globals.css`) traz
+  `@custom-variant dark`, que liga o `dark:` do Tailwind à classe. O teste de contraste do base-ds
+  cobre os dois temas. Ver "Tema escuro" no README do base-ds antes de implementar.
+- **O que não muda no escuro:** os primitivos, os gráficos, o `overlay` e os tokens que não são de
+  cor. Estilizar só com os tokens semânticos para o tema funcionar sem `dark:` espalhado.
 - **Flash de tema errado.** Aplicar a classe antes da primeira pintura, com um script inline
   pequeno no `<head>`; senão o site pisca claro antes de ficar escuro.
 - **Acessibilidade.** O controle precisa de rótulo e estado (`Switch` do base-ds com
@@ -39,7 +40,8 @@ lembrando a escolha do visitante.
 
 **Dependência**
 
-- Atualizar `@indianous/base-ds` para a versão com tema escuro, conforme o CHANGELOG.
+- Nenhuma: o tema escuro já está na versão instalada (v0.4.10 ou maior). Rodar
+  `npm outdated @indianous/base-ds` ao começar, como em toda tarefa de UI.
 
 **Tipos / lógica**
 

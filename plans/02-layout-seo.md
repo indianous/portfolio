@@ -11,9 +11,13 @@ Levantados em `node_modules/@indianous/base-ds/dist/` (v0.4.7) em 2026-09-28.
   componente de link, então não compõem com `next/link`: toda navegação interna recarrega a página.
   Issue aberta: [indianous/base-ds#54](https://github.com/indianous/base-ds/issues/54). Até lá,
   usar `href` e aceitar o recarregamento (é site estático, o custo é pequeno).
+  **Resolvido na v0.4.9:** `Navbar` e `Footer` recebem `linkComponent`. O `SiteHeader` passa o
+  `Link` do Next.js e o `SiteFooter` (Server Component) passa o `AppLink`, reexportado de um arquivo
+  `'use client'`.
 - **Rótulos do `Navbar` fixos em inglês** (`"Main navigation"`, `"Open navigation menu"`,
   `"More actions"`, títulos `"Menu"`/`"Actions"` dos drawers) num site `pt-BR`. Issue aberta:
   [indianous/base-ds#55](https://github.com/indianous/base-ds/issues/55). Sem contorno no app.
+  **Resolvido na v0.4.8:** os rótulos em português vêm de `siteConfig.navLabels`.
 - **Estado ativo do menu.** `NavItem.active` gera `aria-current="page"`, mas quem calcula é o app:
   `SiteHeader` precisa de `usePathname()`, então é client component (o base-ds já é todo client).
 - **Sem ícones de GitHub/LinkedIn.** O `Icon` usa o `lucide-react@1.x`, que removeu ícones de marca.
@@ -22,7 +26,9 @@ Levantados em `node_modules/@indianous/base-ds/dist/` (v0.4.7) em 2026-09-28.
   ficam no código, e o link só aparece quando a variável existe. Como as páginas são estáticas, os
   valores entram no build (defini-los também na Vercel).
 - **`Icon` importa o lucide inteiro** (`import * as LucideIcons`, 1.854 ícones). Registrado na
-  [#53](https://github.com/indianous/base-ds/issues/53#issuecomment-5872621595).
+  [#53](https://github.com/indianous/base-ds/issues/53#issuecomment-5872621595). Na v0.4.11 os
+  outros componentes passaram a importar só os ícones que usam; o `Icon` continua trazendo todos.
+  Não usá-lo: importar do `lucide-react` direto.
 - **`Footer` sem `copyright` mostra "© ano base-ds"**: sempre passar `copyright`.
 - **Link "pular para o conteúdo".** O base-ds não tem um componente próprio; usar `Button as="a"`
   com `sr-only focus:not-sr-only` (sem elemento nativo).

@@ -6,8 +6,8 @@ Vercel com integração contínua.
 ## 1. Problemas encontrados
 
 - **Meta sem verificação automática.** Sem Lighthouse na CI, a nota cai sem ninguém perceber.
-- **Peso do base-ds** (ver etapa 01): se a issue de tree-shaking/splitting não tiver sido
-  resolvida, é o principal risco para a nota de performance.
+- **Peso do base-ds:** resolvido na v0.4.11 (+949 KB → +48 KB de JS na página `/`; ver o achado 2
+  em `plans/README.md`). Medir de novo aqui, com as páginas finais, e não usar o `Icon` do base-ds.
 - **Acessibilidade só por teste unitário não basta.** Rodar `axe` nas páginas renderizadas.
 - **Segredos.** `GITHUB_PACKAGES_TOKEN` (instalar o base-ds no build) e `GITHUB_TOKEN` (etapa 08)
   precisam existir na Vercel e na CI.
