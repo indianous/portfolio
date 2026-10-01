@@ -2,6 +2,11 @@
 
 **Objetivo:** animações fluidas com Framer Motion, sem prejudicar performance nem acessibilidade.
 
+> **Revisto na etapa 11:** o Lighthouse mostrou que o núcleo do `LazyMotion`/`m` custava ~0,2 s de
+> LCP simulado. O `Reveal` passou a usar só o `inView` e o `animate` do `motion/mini` (+3,4 KB gzip
+> em vez de +19,5 KB), com o mesmo comportamento; `MotionProvider` e `features.ts` saíram. Ver
+> `plans/11-qualidade-deploy.md`.
+
 ## 1. Problemas encontrados
 
 Levantados em 2026-10-01, com `motion` 13.5.0, React 19.2.8 e Next.js 16.3.6.

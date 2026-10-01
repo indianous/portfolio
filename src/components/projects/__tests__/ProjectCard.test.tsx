@@ -60,4 +60,9 @@ describe('ProjectCard', () => {
     rerender(<ProjectCard project={makeProject({ title: 'Alfa' })} />)
     expect(screen.queryByRole('link')).not.toBeInTheDocument()
   })
+
+  it('usa o nível de título pedido', () => {
+    render(<ProjectCard project={makeProject({ title: 'Alfa' })} headingLevel="h2" />)
+    expect(screen.getByRole('heading', { level: 2, name: 'Alfa' })).toBeInTheDocument()
+  })
 })

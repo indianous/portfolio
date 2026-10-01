@@ -26,7 +26,7 @@ describe('ProjectShowcase', () => {
   it('aplica o filtro que está na URL', () => {
     search.current = 'tech=node.js'
     render(<ProjectShowcase projects={projects} technologies={technologies} />)
-    expect(screen.getAllByRole('heading', { level: 3 }).map((h) => h.textContent)).toEqual(['Beta'])
+    expect(screen.getAllByRole('heading', { level: 2 }).map((h) => h.textContent)).toEqual(['Beta'])
     expect(screen.getByRole('button', { name: 'Node.js' })).toHaveAttribute('aria-pressed', 'true')
   })
 

@@ -1,0 +1,29 @@
+name: Lighthouse
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+jobs:
+  lighthouse:
+    runs-on: ubuntu-latest
+    env:
+      # Token clássico com read:packages, para instalar o @indianous/base-ds (ver .npmrc).
+      GITHUB_PACKAGES_TOKEN: ${{ secrets.GH_PACKAGES_TOKEN }}
+    steps:
+      - uses: actions/checkout@v7
+      - uses: actions/setup-node@v7
+        with:
+          node-version: 22
+          cache: npm
+      - run: npm ci
+      # Sem GITHUB_TOKEN: a seção do GitHub não aparece, como na CI de testes.
+      - run: npm run build
+      # Mediana de 3 rodadas por página; limites em lighthouserc.json.
+      - run: npx --yes @lhci/cli@0.15.1 autorun
+      - uses: actions/upload-artifact@v7
+        if: always()
+        with:
+          name: lighthouse
+          path: .lighthouseci

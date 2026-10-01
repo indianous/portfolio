@@ -3,7 +3,6 @@ import { render, screen, within } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import { describe, expect, it, vi } from 'vitest'
 import { makeProject } from '../../../../__tests__/stubs/content'
-import { MotionProvider } from '@/components/motion/MotionProvider'
 import { ProjectGallery } from '@/components/projects/ProjectGallery'
 
 vi.mock('next/link', () => import('../../../../__tests__/stubs/next-link'))
@@ -16,7 +15,7 @@ const projects = [
 const technologies = ['Python', 'React']
 
 function titles() {
-  return screen.getAllByRole('heading', { level: 3 }).map((h) => h.textContent)
+  return screen.getAllByRole('heading', { level: 2 }).map((h) => h.textContent)
 }
 
 describe('ProjectGallery', () => {
@@ -98,14 +97,12 @@ describe('ProjectGallery', () => {
     function Controlled() {
       const [selected, setSelected] = useState<string[]>(['Python'])
       return (
-        <MotionProvider>
-          <ProjectGallery
-            projects={projects}
-            technologies={technologies}
-            selected={selected}
-            onSelectedChange={setSelected}
-          />
-        </MotionProvider>
+        <ProjectGallery
+          projects={projects}
+          technologies={technologies}
+          selected={selected}
+          onSelectedChange={setSelected}
+        />
       )
     }
     render(<Controlled />)

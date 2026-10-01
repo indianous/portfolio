@@ -89,7 +89,7 @@ export function ProjectGallery({
             animateEntry={hasFiltered}
             delay={hasFiltered ? staggerDelay(index) : 0}
           >
-            <ProjectCard project={project} />
+            <ProjectCard project={project} headingLevel="h2" />
           </Reveal>
         ))}
       </ul>

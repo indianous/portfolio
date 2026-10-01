@@ -4,11 +4,13 @@ import type { Project } from '@/content/schemas'
 
 interface ProjectCardProps {
   project: Project
+  /** Nível do título: `h3` dentro de uma seção (home), `h2` direto sob o `h1` (vitrine). */
+  headingLevel?: 'h2' | 'h3'
 }
 
 // O aria-label põe o nome do projeto nos links: em vários cards, "Repositório" sozinho teria o
 // mesmo nome e destinos diferentes. Ele começa pelo texto visível, para o comando de voz achá-lo.
-export function ProjectCard({ project }: ProjectCardProps) {
+export function ProjectCard({ project, headingLevel = 'h3' }: ProjectCardProps) {
   const { slug, title, summary, technologies, repoUrl, liveUrl, hasCaseStudy } = project
   const hasLinks = hasCaseStudy || repoUrl || liveUrl
 
@@ -55,7 +57,7 @@ export function ProjectCard({ project }: ProjectCardProps) {
       }
     >
       <div className="flex flex-col gap-3">
-        <Heading as="h3" size="xl">
+        <Heading as={headingLevel} size="xl">
           {title}
         </Heading>
         <Text color="muted">{summary}</Text>

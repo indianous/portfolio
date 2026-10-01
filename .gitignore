@@ -42,3 +42,6 @@ next-env.d.ts
 
 # exemplo de variáveis de ambiente (sem segredos)
 !.env.example
+
+# Relatórios do Lighthouse CI
+/.lighthouseci
