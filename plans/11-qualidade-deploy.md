@@ -25,9 +25,9 @@ Medido em 2026-10-01 com Lighthouse 13.5.0 (perfil móvel, simulado) sobre o `ne
 - **Piso do framework.** Mesmo assim, a performance fica entre 99 e 100 (três rodadas por página:
   LCP 1,7–2,0 s, TBT 60–70 ms). A única tarefa longa (~120 ms) e ~114 KB dos ~173 KB de JS
   transferidos são do próprio Next.js/React (roteador e hidratação), não do código do app.
-  **Decisão do usuário:** o Lighthouse CI falha abaixo de 98 em performance e abaixo de 100 nas
-  outras categorias; a meta de 100 continua valendo e aparece no relatório. (Começou em 99; ver o
-  item sobre a CI abaixo.)
+  **Decisão do usuário:** o Lighthouse CI falha abaixo de 95 em performance e abaixo de 100 nas
+  outras categorias; a meta de 100 continua valendo e aparece no relatório. (Começou em 99 e passou
+  por 98; ver os itens sobre a CI abaixo.)
 - **A `/projects` reprovou na primeira execução da CI** (96, 97 e 98; as outras páginas passaram).
   O `<Suspense>` exigido pelo `useSearchParams` (etapa 05) fazia a hidratação trocar o HTML
   estático inteiro da vitrine pela versão do cliente: o elemento do LCP saía do DOM e a troca
@@ -43,6 +43,10 @@ Medido em 2026-10-01 com Lighthouse 13.5.0 (perfil móvel, simulado) sobre o `ne
   2,3–2,4 s, com o mesmo elemento e LCP observado de ~100 ms; a primeira rodada (máquina fria) chega
   a TBT de 700–800 ms. O `lhci` já usa a melhor rodada nas asserções. Decisão do usuário: baixar o
   limite de performance da CI para 98.
+- **O hardware do runner também varia.** A terceira execução caiu numa máquina mais lenta
+  (`benchmarkIndex` ~2.300, contra ~3.500 na anterior): TBT de 110–160 ms e notas de 96–100, com
+  o estudo de caso no máximo em 97, sem mudança no código (LCP observado ~150 ms). Decisão do
+  usuário: limite de performance em 95 (a pior melhor-rodada nas três execuções foi 97).
 - **Segredos.** `GITHUB_PACKAGES_TOKEN` (instalar o base-ds no build) e `GITHUB_TOKEN` (etapa 08)
   precisam existir na Vercel. Na CI do Lighthouse o build roda sem `GITHUB_TOKEN` (a seção do
   GitHub some), como na CI de testes.
@@ -78,7 +82,7 @@ Medido em 2026-10-01 com Lighthouse 13.5.0 (perfil móvel, simulado) sobre o `ne
 
 **`lighthouserc.json`** (Lighthouse CI, perfil móvel, mediana de 3 rodadas)
 
-- Acessibilidade, boas práticas e SEO = 100 e performance ≥ 98 nas páginas principais.
+- Acessibilidade, boas práticas e SEO = 100 e performance ≥ 95 nas páginas principais.
 
 ## 3. O que entra no projeto
 

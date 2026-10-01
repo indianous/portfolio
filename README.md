@@ -51,7 +51,8 @@ dizendo o arquivo e o campo.
 
 - **CI** (`.github/workflows/ci.yml`): formatação, lint, tipos, testes e build em cada push e PR.
 - **Lighthouse** (`.github/workflows/lighthouse.yml` + `lighthouserc.json`): perfil móvel, melhor de 3 rodadas nas páginas principais. Falha abaixo de 100 em acessibilidade, boas práticas e SEO,
-  e abaixo de 98 em performance (a simulação do Lighthouse oscila 98–100 nos runners do GitHub). Os relatórios ficam como artefato da execução.
+  e abaixo de 95 em performance (a nota simulada oscila 96–100 nos runners do GitHub,
+  conforme o hardware). Os relatórios ficam como artefato da execução.
 - **Acessibilidade**: `axe` nas páginas renderizadas (`__tests__/a11y/pages.test.tsx`).
 - **Cabeçalhos de segurança** (CSP e outros) em `next.config.ts`.
 
