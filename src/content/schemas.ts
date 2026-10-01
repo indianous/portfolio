@@ -64,6 +64,6 @@ interface Entry {
 }
 
 export type Project = z.infer<typeof projectSchema> & Entry & { hasCaseStudy: boolean }
-export type Post = z.infer<typeof postSchema> & Entry
+export type Post = z.infer<typeof postSchema> & Entry & { readingMinutes: number }
 export type Experience = z.infer<typeof experienceSchema> & Entry
 export type Profile = z.infer<typeof profileSchema> & Pick<Entry, 'body'>

@@ -13,6 +13,7 @@ import {
   type Profile,
   type Project,
 } from '@/content/schemas'
+import { countReadingMinutes } from '@/lib/readingTime'
 
 const CONTENT_DIR = join(process.cwd(), 'content')
 
@@ -110,6 +111,7 @@ export async function getPosts({
   const posts = await loadCollection(dir, 'posts', postSchema)
   return posts
     .filter((post) => includeDrafts || !post.draft)
+    .map((post) => ({ ...post, readingMinutes: countReadingMinutes(post.body) }))
     .sort((a, b) => b.date.localeCompare(a.date))
 }
 

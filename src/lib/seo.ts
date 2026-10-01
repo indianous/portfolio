@@ -7,10 +7,14 @@ interface PageSeo {
   path: string
   /** Imagem do Open Graph (a capa de um projeto), a partir de `public/`. */
   image?: { url: string; alt: string }
+  /** Data de publicação (`AAAA-MM-DD`) de um post: o Open Graph vira `article`. */
+  publishedTime?: string
+  /** Caminho do feed RSS, anunciado no `<head>`. */
+  feed?: string
 }
 
 export function buildMetadata(
-  { title, description = siteConfig.description, path, image }: PageSeo,
+  { title, description = siteConfig.description, path, image, publishedTime, feed }: PageSeo,
   siteUrl = getSiteUrl(),
 ): Metadata {
   const fullTitle = title
@@ -21,14 +25,18 @@ export function buildMetadata(
   return {
     title: { absolute: fullTitle },
     description,
-    alternates: { canonical: url },
+    alternates: {
+      canonical: url,
+      ...(feed && { types: { 'application/rss+xml': new URL(feed, siteUrl).toString() } }),
+    },
     openGraph: {
       title: fullTitle,
       description,
       url,
       siteName: siteConfig.name,
       locale: siteConfig.locale,
-      type: image ? 'article' : 'website',
+      type: image || publishedTime ? 'article' : 'website',
+      ...(publishedTime && { publishedTime }),
       ...(image && { images: [{ url: new URL(image.url, siteUrl).toString(), alt: image.alt }] }),
     },
   }

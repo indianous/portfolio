@@ -45,4 +45,19 @@ describe('buildMetadata', () => {
       images: [{ url: 'https://exemplo.dev/images/alfa.png', alt: 'Tela' }],
     })
   })
+
+  it('com data de publicação, gera Open Graph de artigo com publishedTime', () => {
+    const metadata = buildMetadata(
+      { title: 'Post', path: '/blog/post', publishedTime: '2026-09-01' },
+      siteUrl,
+    )
+    expect(metadata.openGraph).toMatchObject({ type: 'article', publishedTime: '2026-09-01' })
+  })
+
+  it('com feed, anuncia o RSS no head', () => {
+    const metadata = buildMetadata({ path: '/blog', feed: '/blog/rss.xml' }, siteUrl)
+    expect(metadata.alternates?.types).toEqual({
+      'application/rss+xml': 'https://exemplo.dev/blog/rss.xml',
+    })
+  })
 })

@@ -24,6 +24,7 @@ export function makePost(overrides: Partial<Post> = {}): Post {
     date: '2026-01-01',
     tags: [],
     draft: false,
+    readingMinutes: 1,
     body: '',
     ...overrides,
   }

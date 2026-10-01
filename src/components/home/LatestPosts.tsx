@@ -1,8 +1,7 @@
-import { Heading, Text } from '@indianous/base-ds'
-import { AppLink } from '@/components/AppLink'
+import { Heading } from '@indianous/base-ds'
+import { PostList } from '@/components/blog/PostList'
 import { ButtonLink } from '@/components/ButtonLink'
 import type { Post } from '@/content/schemas'
-import { formatDate } from '@/lib/dates'
 
 const MAX_POSTS = 3
 
@@ -24,24 +23,7 @@ export function LatestPosts({ posts }: LatestPostsProps) {
           Ver todos
         </ButtonLink>
       </div>
-      <ul className="flex flex-col gap-6">
-        {latest.map((post) => (
-          <li key={post.slug} className="flex flex-col gap-1">
-            <Heading as="h3" size="xl">
-              <AppLink
-                href={`/blog/${post.slug}`}
-                className="hover:text-primary hover:underline underline-offset-2"
-              >
-                {post.title}
-              </AppLink>
-            </Heading>
-            <Text as="span" size="sm" color="muted">
-              <time dateTime={post.date}>{formatDate(post.date)}</time>
-            </Text>
-            <Text color="muted">{post.summary}</Text>
-          </li>
-        ))}
-      </ul>
+      <PostList posts={latest} headingLevel="h3" />
     </section>
   )
 }

@@ -75,6 +75,11 @@ describe('getPosts', () => {
     expect(posts.map((p) => p.slug)).toEqual(['rascunho', 'recente', 'antigo'])
   })
 
+  it('calcula o tempo de leitura de cada post', async () => {
+    const posts = await getPosts({ dir, includeDrafts: true })
+    expect(posts.every((post) => post.readingMinutes === 1)).toBe(true)
+  })
+
   it('ignora rascunhos sem includeDrafts', async () => {
     const posts = await getPosts({ dir, includeDrafts: false })
     expect(posts.map((p) => p.slug)).toEqual(['recente', 'antigo'])
