@@ -27,6 +27,15 @@ Medido em 2026-10-01 com Lighthouse 13.5.0 (perfil móvel, simulado) sobre o `ne
   transferidos são do próprio Next.js/React (roteador e hidratação), não do código do app.
   **Decisão do usuário:** o Lighthouse CI falha abaixo de 99 em performance (mediana de 3 rodadas)
   e abaixo de 100 nas outras categorias; a meta de 100 continua valendo e aparece no relatório.
+- **A `/projects` reprovou na primeira execução da CI** (96, 97 e 98; as outras páginas passaram).
+  O `<Suspense>` exigido pelo `useSearchParams` (etapa 05) fazia a hidratação trocar o HTML
+  estático inteiro da vitrine pela versão do cliente: o elemento do LCP saía do DOM e a troca
+  custava TBT. O `ProjectShowcase` passou a ler `?tech=` de `window.location` com
+  `useSyncExternalStore` (sem filtro no servidor e na hidratação), avisando as mudanças pelo
+  `popstate` e por um evento próprio depois do `pushState`; a página não usa mais `Suspense`.
+  Localmente, a `/projects` foi de TBT 70 ms para 30 ms e de 99 fixo para 99–100. O artefato com os
+  relatórios também não subia: o `upload-artifact` ignora pastas ocultas sem
+  `include-hidden-files: true`.
 - **Segredos.** `GITHUB_PACKAGES_TOKEN` (instalar o base-ds no build) e `GITHUB_TOKEN` (etapa 08)
   precisam existir na Vercel. Na CI do Lighthouse o build roda sem `GITHUB_TOKEN` (a seção do
   GitHub some), como na CI de testes.

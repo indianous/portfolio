@@ -27,3 +27,5 @@ jobs:
         with:
           name: lighthouse
           path: .lighthouseci
+          # A pasta começa com ponto: sem isto, o upload-artifact a ignora.
+          include-hidden-files: true

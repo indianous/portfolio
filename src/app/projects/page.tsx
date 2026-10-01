@@ -1,6 +1,4 @@
-import { Suspense } from 'react'
 import { Heading, Text } from '@indianous/base-ds'
-import { ProjectGallery } from '@/components/projects/ProjectGallery'
 import { ProjectShowcase } from '@/components/projects/ProjectShowcase'
 import { getAllTechnologies, getProjects } from '@/content/loaders'
 import { buildMetadata } from '@/lib/seo'
@@ -22,13 +20,7 @@ export default async function ProjectsPage() {
           {description}
         </Text>
       </div>
-      {/* O fallback (vitrine sem filtro) é o que vai no HTML estático; o filtro da URL entra na
-          hidratação, porque o useSearchParams não existe no build. */}
-      <Suspense
-        fallback={<ProjectGallery projects={projects} technologies={technologies} selected={[]} />}
-      >
-        <ProjectShowcase projects={projects} technologies={technologies} />
-      </Suspense>
+      <ProjectShowcase projects={projects} technologies={technologies} />
     </div>
   )
 }

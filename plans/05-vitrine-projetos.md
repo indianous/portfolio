@@ -3,6 +3,11 @@
 **Objetivo:** página `/projects` com todos os projetos e filtro por tecnologia (React, Node.js,
 Python etc.), com links para repositório e live preview.
 
+> **Revisto na etapa 11:** o `<Suspense>` com `useSearchParams` fazia a hidratação trocar o HTML
+> estático inteiro da vitrine (onde está o LCP), e a `/projects` caía para 96–98 no Lighthouse da
+> CI. O `ProjectShowcase` passou a ler a URL de `window.location` com `useSyncExternalStore` (sem
+> filtro no servidor e na hidratação), sem `Suspense`. Ver `plans/11-qualidade-deploy.md`.
+
 ## 1. Problemas encontrados
 
 Levantados em 2026-10-01, com o base-ds v0.5.0.
