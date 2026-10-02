@@ -26,6 +26,11 @@ describe('ProjectCard', () => {
     ).toEqual(['React', 'Node.js'])
   })
 
+  it('limita o resumo a 2 linhas com reticências, sempre com a altura de 2 linhas', () => {
+    render(<ProjectCard project={makeProject({ summary: 'Resumo alfa.' })} />)
+    expect(screen.getByText('Resumo alfa.')).toHaveClass('line-clamp-2', 'min-h-[2lh]')
+  })
+
   it('liga à página do projeto e à demonstração, com o nome do projeto', () => {
     render(
       <ProjectCard

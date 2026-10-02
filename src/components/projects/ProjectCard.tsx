@@ -38,7 +38,12 @@ export function ProjectCard({ project, headingLevel = 'h3' }: ProjectCardProps) 
         <Heading as={headingLevel} size="xl">
           {title}
         </Heading>
-        <Text color="muted">{summary}</Text>
+        {/* Resumo em 2 linhas, com reticências, e sempre com a altura delas, para os cards terem o
+            mesmo tamanho. O min-h-[2lh] é temporário: sai quando o Text ganhar a prop de linhas
+            (indianous/base-ds#62). */}
+        <Text color="muted" className="line-clamp-2 min-h-[2lh]">
+          {summary}
+        </Text>
         <ul aria-label="Tecnologias" className="flex flex-wrap gap-2">
           {technologies.map((technology) => (
             <li key={technology}>
