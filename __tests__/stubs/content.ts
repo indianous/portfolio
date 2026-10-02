@@ -37,6 +37,7 @@ export function makeExperience(overrides: Partial<Experience> = {}): Experience 
     company: 'Empresa',
     start: '2020-01',
     technologies: [],
+    softSkills: [],
     body: '',
     ...overrides,
   }

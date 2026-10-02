@@ -60,17 +60,19 @@ Rascunhos aparecem no `npm run dev`, mas não no build de produção.
 
 ## Trajetória — `experience/*.md`
 
-| Campo          | Obrigatório | Descrição                                        |
-| -------------- | ----------- | ------------------------------------------------ |
-| `role`         | sim         | Cargo.                                           |
-| `company`      | sim         | Empresa.                                         |
-| `start`        | sim         | Início, em `AAAA-MM`.                            |
-| `end`          | não         | Fim, em `AAAA-MM`. Sem `end`, é o emprego atual. |
-| `location`     | não         | Cidade ou "Remoto".                              |
-| `technologies` | não         | Tecnologias usadas.                              |
+| Campo          | Obrigatório | Descrição                                             |
+| -------------- | ----------- | ----------------------------------------------------- |
+| `role`         | sim         | Cargo.                                                |
+| `company`      | sim         | Empresa.                                              |
+| `start`        | sim         | Início, em `AAAA-MM`.                                 |
+| `end`          | não         | Fim, em `AAAA-MM`. Sem `end`, é o emprego atual.      |
+| `location`     | não         | Cidade ou "Remoto".                                   |
+| `technologies` | não         | Tecnologias usadas.                                   |
+| `softSkills`   | não         | Soft skills da experiência (liderança, comunicação…). |
 
 O corpo do arquivo é a descrição da experiência. A trajetória é listada da mais recente para a
-mais antiga.
+mais antiga. As soft skills de todas as experiências também aparecem juntas, sem repetir, na
+seção "Soft-Skills" da página Sobre.
 
 ## Perfil — `profile.md`
 

@@ -45,6 +45,7 @@ export const experienceSchema = z.object({
   end: yearMonth.optional(),
   location: z.string().min(1).optional(),
   technologies: z.array(z.string().min(1)).default([]),
+  softSkills: z.array(z.string().min(1)).default([]),
 })
 
 export const profileSchema = z.object({

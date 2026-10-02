@@ -1,7 +1,7 @@
 ---
 role: Desenvolvedor Full-Stack
 company: Autônomo
-start: 2016-01
+start: 2022-01
 location: Remoto
 technologies: [React, Node.js, TypeScript, Java, C]
 ---

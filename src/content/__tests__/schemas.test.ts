@@ -91,6 +91,14 @@ describe('experienceSchema', () => {
     expect(experienceSchema.safeParse({ ...experience, start: '03/2024' }).success).toBe(false)
   })
 
+  it('aceita soft skills, sem nenhuma por padrão', () => {
+    expect(experienceSchema.parse(experience).softSkills).toEqual([])
+    expect(experienceSchema.parse({ ...experience, softSkills: ['Liderança'] }).softSkills).toEqual(
+      ['Liderança'],
+    )
+    expect(experienceSchema.safeParse({ ...experience, softSkills: [''] }).success).toBe(false)
+  })
+
   it('aceita end em AAAA-MM', () => {
     expect(experienceSchema.parse({ ...experience, end: '2025-01' }).end).toBe('2025-01')
   })

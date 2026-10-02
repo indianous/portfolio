@@ -48,6 +48,18 @@ export function Timeline({ items }: TimelineProps) {
               ))}
             </ul>
           )}
+          {experience.softSkills.length > 0 && (
+            <ul
+              aria-label={`Soft-Skills em ${experience.company}`}
+              className="flex flex-wrap gap-2"
+            >
+              {experience.softSkills.map((softSkill) => (
+                <li key={softSkill}>
+                  <Badge size="sm">{softSkill}</Badge>
+                </li>
+              ))}
+            </ul>
+          )}
         </Reveal>
       ))}
     </ol>

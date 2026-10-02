@@ -31,6 +31,10 @@ export default async function AboutPage() {
   const technologies = [
     ...new Set([...projectTechnologies, ...experience.flatMap((item) => item.technologies)]),
   ].sort((a, b) => a.localeCompare(b, 'pt-BR'))
+  // Soft-Skills da trajetória, sem repetir.
+  const softSkills = [...new Set(experience.flatMap((item) => item.softSkills))].sort((a, b) =>
+    a.localeCompare(b, 'pt-BR'),
+  )
 
   return (
     <div className="flex max-w-3xl flex-col gap-12 py-12">
@@ -65,6 +69,21 @@ export default async function AboutPage() {
           ))}
         </ul>
       </section>
+
+      {softSkills.length > 0 && (
+        <section aria-labelledby="soft-skills" className="flex flex-col gap-6">
+          <Heading as="h2" size="2xl" id="soft-skills">
+            Soft-Skills
+          </Heading>
+          <ul aria-labelledby="soft-skills" className="flex flex-wrap gap-2">
+            {softSkills.map((softSkill) => (
+              <li key={softSkill}>
+                <Badge>{softSkill}</Badge>
+              </li>
+            ))}
+          </ul>
+        </section>
+      )}
 
       <GitHubSection profile={github} />
     </div>

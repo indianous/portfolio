@@ -49,4 +49,29 @@ describe('Timeline', () => {
     )
     expect(screen.getByText('Descrição atual.')).toBeInTheDocument()
   })
+
+  it('mostra as soft skills só da experiência que tem', () => {
+    render(
+      <Timeline
+        items={[
+          {
+            experience: makeExperience({
+              slug: 'a',
+              company: 'Com',
+              softSkills: ['Liderança', 'Disciplina'],
+            }),
+            description: 'A.',
+          },
+          {
+            experience: makeExperience({ slug: 'b', company: 'Sem', start: '2010-01' }),
+            description: 'B.',
+          },
+        ]}
+      />,
+    )
+    expect(screen.getByRole('list', { name: 'Soft-Skills em Com' })).toHaveTextContent(
+      'LiderançaDisciplina',
+    )
+    expect(screen.queryByRole('list', { name: 'Soft-Skills em Sem' })).not.toBeInTheDocument()
+  })
 })

@@ -1,5 +1,6 @@
 ---
 headline: Desenvolvo aplicações web de ponta a ponta, do banco de dados à interface, com foco em performance, acessibilidade e código fácil de manter.
+resume: /curriculo-joao-victor.pdf
 ---
 
 Sou desenvolvedor full-stack e trabalho de forma autônoma desde 2016, construindo aplicações web
