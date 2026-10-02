@@ -26,39 +26,20 @@ describe('ProjectCard', () => {
     ).toEqual(['React', 'Node.js'])
   })
 
-  it('liga ao estudo de caso só quando ele existe', () => {
-    const { rerender } = render(
-      <ProjectCard project={makeProject({ slug: 'alfa', title: 'Alfa', hasCaseStudy: true })} />,
-    )
-    const link = screen.getByRole('link', { name: 'Estudo de caso de Alfa' })
-    expect(link).toHaveAttribute('href', '/projects/alfa')
-    expect(link).toHaveAttribute('data-next-link')
-
-    rerender(<ProjectCard project={makeProject({ title: 'Alfa', hasCaseStudy: false })} />)
-    expect(screen.queryByRole('link', { name: /Estudo de caso/ })).not.toBeInTheDocument()
-  })
-
-  it('mostra repositório e versão online só quando existem, com o nome do projeto', () => {
-    const { rerender } = render(
+  it('liga à página do projeto e à demonstração, com o nome do projeto', () => {
+    render(
       <ProjectCard
-        project={makeProject({
-          title: 'Alfa',
-          repoUrl: 'https://github.com/eu/alfa',
-          liveUrl: 'https://alfa.dev',
-        })}
+        project={makeProject({ slug: 'alfa', title: 'Alfa', liveUrl: 'https://alfa.dev' })}
       />,
     )
-    expect(screen.getByRole('link', { name: 'Repositório de Alfa' })).toHaveAttribute(
-      'href',
-      'https://github.com/eu/alfa',
-    )
-    expect(screen.getByRole('link', { name: 'Ver Alfa online' })).toHaveAttribute(
+    const details = screen.getByRole('link', { name: 'Detalhes de Alfa' })
+    expect(details).toHaveAttribute('href', '/projects/alfa')
+    expect(details).toHaveAttribute('data-next-link')
+    expect(screen.getByRole('link', { name: 'Ver demonstração de Alfa' })).toHaveAttribute(
       'href',
       'https://alfa.dev',
     )
-
-    rerender(<ProjectCard project={makeProject({ title: 'Alfa' })} />)
-    expect(screen.queryByRole('link')).not.toBeInTheDocument()
+    expect(screen.getAllByRole('link')).toHaveLength(2)
   })
 
   it('usa o nível de título pedido', () => {

@@ -3,7 +3,6 @@ import { join } from 'node:path'
 import { describe, expect, it } from 'vitest'
 import {
   getAllTechnologies,
-  getCaseStudies,
   getExperience,
   getPostBySlug,
   getPosts,
@@ -14,7 +13,7 @@ import {
 
 const dir = join(__dirname, 'fixtures', 'valid')
 const invalidDir = join(__dirname, 'fixtures', 'invalid')
-const invalidCaseStudyDir = join(__dirname, 'fixtures', 'invalid-case-study')
+const noDescriptionDir = join(__dirname, 'fixtures', 'no-description')
 
 describe('getProjects', () => {
   it('usa o nome do arquivo como slug e ordena por order e depois pela data mais recente', async () => {
@@ -22,28 +21,19 @@ describe('getProjects', () => {
     expect(projects.map((p) => p.slug)).toEqual(['beta', 'alfa', 'gama', 'delta'])
   })
 
-  it('marca o estudo de caso só quando o corpo não está vazio', async () => {
-    const projects = await getProjects({ dir })
-    const bySlug = Object.fromEntries(projects.map((p) => [p.slug, p]))
-    expect(bySlug.beta.hasCaseStudy).toBe(true)
-    expect(bySlug.beta.body).toContain('## Problema')
-    expect(bySlug.alfa.hasCaseStudy).toBe(false)
+  it('traz a descrição do projeto no corpo', async () => {
+    const beta = await getProjectBySlug('beta', { dir })
+    expect(beta?.body.trim()).toBe('Descrição do Beta.')
   })
 
   it('falha com o caminho do arquivo quando o frontmatter é inválido', async () => {
     await expect(getProjects({ dir: invalidDir })).rejects.toThrow(/projects[/\\]sem-titulo\.md/)
   })
-})
 
-describe('estudos de caso', () => {
-  it('falha quando faltam as seções obrigatórias, com o arquivo e as seções', async () => {
-    await expect(getProjects({ dir: invalidCaseStudyDir })).rejects.toThrow(
-      /projects[/\\]incompleto\.md[\s\S]*## Arquitetura, ## Resultados/,
+  it('falha com o caminho do arquivo quando o projeto não tem descrição', async () => {
+    await expect(getProjects({ dir: noDescriptionDir })).rejects.toThrow(
+      /Projeto sem descrição em .*projects[/\\]sem-descricao\.md/,
     )
-  })
-
-  it('getCaseStudies devolve só os projetos com estudo de caso', async () => {
-    expect((await getCaseStudies({ dir })).map((p) => p.slug)).toEqual(['beta'])
   })
 })
 

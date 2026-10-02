@@ -1,6 +1,6 @@
 import { render, screen, within } from '@testing-library/react'
 import { describe, expect, it } from 'vitest'
-import { TableOfContents } from '@/components/case-study/TableOfContents'
+import { TableOfContents } from '@/components/blog/TableOfContents'
 
 describe('TableOfContents', () => {
   it('lista um link por título, apontando para a âncora', () => {

@@ -13,7 +13,6 @@ const project = {
   summary: 'Resumo do projeto.',
   technologies: ['React', 'Node.js'],
   date: '2026-09-01',
-  repoUrl: 'https://github.com/indianous/projeto',
   liveUrl: 'https://projeto.dev',
   cover: '/images/projeto.png',
   coverAlt: 'Tela do projeto',
@@ -26,7 +25,7 @@ describe('projectSchema', () => {
     expect(projectSchema.parse(project)).toEqual(project)
   })
 
-  it.each(['title', 'summary'])('rejeita projeto sem %s', (field) => {
+  it.each(['title', 'summary', 'liveUrl'])('rejeita projeto sem %s', (field) => {
     const rest = without(project, field as keyof typeof project)
     expect(projectSchema.safeParse(rest).success).toBe(false)
   })
@@ -46,16 +45,8 @@ describe('projectSchema', () => {
     )
   })
 
-  it('aceita destaques com valor e rótulo', () => {
-    const highlights = [{ value: '−95%', label: 'de JS' }]
-    expect(projectSchema.parse({ ...project, highlights }).highlights).toEqual(highlights)
-    expect(projectSchema.safeParse({ ...project, highlights: [{ value: '−95%' }] }).success).toBe(
-      false,
-    )
-  })
-
-  it('rejeita repoUrl que não é URL', () => {
-    expect(projectSchema.safeParse({ ...project, repoUrl: 'github' }).success).toBe(false)
+  it('rejeita liveUrl que não é URL', () => {
+    expect(projectSchema.safeParse({ ...project, liveUrl: 'projeto' }).success).toBe(false)
   })
 })
 

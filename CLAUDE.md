@@ -30,9 +30,9 @@ Portfólio interativo de alta performance para um desenvolvedor full-stack: exib
 
 ## Funcionalidades
 
-1. **Vitrine de projetos** com filtro por tecnologia (React, Node.js, Python etc.) e links para repositório e live preview.
+1. **Vitrine de projetos** com filtro por tecnologia (React, Node.js, Python etc.) e link para o site de demonstração.
 2. **Dark/Light mode** nativo via Tailwind.
-3. **Estudos de caso** — uma página por aplicação principal (problema, arquitetura, resultados).
+3. **Página do projeto** — uma por aplicação, com a descrição (Markdown livre) e o link para a demonstração.
 4. **Integração com a API do GitHub** — estatísticas de contribuição e repositórios pinados.
 
 ## Requisitos não negociáveis

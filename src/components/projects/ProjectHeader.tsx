@@ -1,18 +1,19 @@
 import { Badge, Breadcrumb, Button, Heading, Image, Text } from '@indianous/base-ds'
+import { AppLink } from '@/components/AppLink'
 import type { Project } from '@/content/schemas'
 
-interface CaseStudyHeaderProps {
+interface ProjectHeaderProps {
   project: Project
 }
 
-// A trilha usa href puro até o Breadcrumb aceitar linkComponent (indianous/base-ds#61).
-export function CaseStudyHeader({ project }: CaseStudyHeaderProps) {
-  const { title, summary, technologies, repoUrl, liveUrl, cover, coverAlt } = project
+export function ProjectHeader({ project }: ProjectHeaderProps) {
+  const { title, summary, technologies, liveUrl, cover, coverAlt } = project
 
   return (
     <header className="flex flex-col gap-6">
       <Breadcrumb
         label="Trilha de navegação"
+        linkComponent={AppLink}
         items={[{ label: 'Projetos', href: '/projects' }, { label: title }]}
       />
       <div className="flex flex-col gap-4">
@@ -29,20 +30,11 @@ export function CaseStudyHeader({ project }: CaseStudyHeaderProps) {
             </li>
           ))}
         </ul>
-        {(repoUrl || liveUrl) && (
-          <div className="flex flex-wrap gap-3">
-            {repoUrl && (
-              <Button as="a" href={repoUrl} variant="outline">
-                Repositório
-              </Button>
-            )}
-            {liveUrl && (
-              <Button as="a" href={liveUrl} variant="ghost">
-                Ver online
-              </Button>
-            )}
-          </div>
-        )}
+        <div>
+          <Button as="a" href={liveUrl}>
+            Ver demonstração
+          </Button>
+        </div>
       </div>
       {cover && (
         <Image

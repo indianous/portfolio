@@ -57,17 +57,11 @@ async function loadCollection<T extends object>(
   )
 }
 
-// Seções obrigatórias de todo estudo de caso (o corpo do arquivo do projeto).
-const CASE_STUDY_SECTIONS = ['## Problema', '## Arquitetura', '## Resultados']
-
-function checkCaseStudySections(dir: string, project: Project) {
-  if (!project.hasCaseStudy) return
-  const lines = new Set(project.body.split('\n').map((line) => line.trim()))
-  const missing = CASE_STUDY_SECTIONS.filter((section) => !lines.has(section))
-  if (missing.length > 0) {
-    const path = join(dir, 'projects', `${project.slug}.md`)
-    throw new Error(`Estudo de caso incompleto em ${path}: faltam ${missing.join(', ')}`)
-  }
+// A descrição da aplicação é o corpo do arquivo, e todo projeto tem a sua página.
+function checkDescription(dir: string, project: Project) {
+  if (project.body.trim() !== '') return
+  const path = join(dir, 'projects', `${project.slug}.md`)
+  throw new Error(`Projeto sem descrição em ${path}: escreva-a no corpo do arquivo`)
 }
 
 // Projetos com `order` primeiro (crescente); depois, e no empate, os mais recentes.
@@ -79,17 +73,9 @@ function compareProjects(a: Project, b: Project) {
 }
 
 export async function getProjects({ dir = CONTENT_DIR }: LoaderOptions = {}): Promise<Project[]> {
-  const projects = (await loadCollection(dir, 'projects', projectSchema)).map((project) => ({
-    ...project,
-    hasCaseStudy: project.body.trim() !== '',
-  }))
-  for (const project of projects) checkCaseStudySections(dir, project)
+  const projects = await loadCollection(dir, 'projects', projectSchema)
+  for (const project of projects) checkDescription(dir, project)
   return projects.sort(compareProjects)
-}
-
-/** Projetos com estudo de caso, na ordem da vitrine. */
-export async function getCaseStudies(options?: LoaderOptions): Promise<Project[]> {
-  return (await getProjects(options)).filter((project) => project.hasCaseStudy)
 }
 
 export async function getProjectBySlug(

@@ -5,11 +5,11 @@ import AboutPage from '@/app/about/page'
 import PostPage from '@/app/blog/[slug]/page'
 import BlogPage from '@/app/blog/page'
 import Home from '@/app/page'
-import CaseStudyPage from '@/app/projects/[slug]/page'
+import ProjectPage from '@/app/projects/[slug]/page'
 import ProjectsPage from '@/app/projects/page'
 import { SiteFooter } from '@/components/layout/SiteFooter'
 import { SiteHeader } from '@/components/layout/SiteHeader'
-import { getCaseStudies, getPosts } from '@/content/loaders'
+import { getPosts, getProjects } from '@/content/loaders'
 
 vi.mock('next/link', () => import('../stubs/next-link'))
 vi.mock('next/navigation', () => ({
@@ -41,9 +41,9 @@ describe('acessibilidade das páginas (axe)', () => {
     expect(await violations(await ProjectsPage())).toEqual([])
   })
 
-  it('estudo de caso', async () => {
-    const [project] = await getCaseStudies()
-    expect(await violations(await CaseStudyPage(params({ slug: project.slug })))).toEqual([])
+  it('projeto', async () => {
+    const [project] = await getProjects()
+    expect(await violations(await ProjectPage(params({ slug: project.slug })))).toEqual([])
   })
 
   it('/blog', async () => {

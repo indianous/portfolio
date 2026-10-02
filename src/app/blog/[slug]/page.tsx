@@ -1,7 +1,7 @@
 import type { Metadata } from 'next'
 import { notFound } from 'next/navigation'
 import { PostHeader } from '@/components/blog/PostHeader'
-import { TableOfContents } from '@/components/case-study/TableOfContents'
+import { TableOfContents } from '@/components/blog/TableOfContents'
 import { getSiteUrl, siteConfig } from '@/config/site'
 import { extractHeadings } from '@/content/headings'
 import { getPostBySlug, getPosts } from '@/content/loaders'

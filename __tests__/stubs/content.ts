@@ -9,9 +9,9 @@ export function makeProject(overrides: Partial<Project> = {}): Project {
     summary: 'Resumo do projeto.',
     technologies: ['React'],
     date: '2026-01-01',
+    liveUrl: 'https://projeto.dev',
     featured: false,
-    hasCaseStudy: false,
-    body: '',
+    body: 'Descrição do projeto.',
     ...overrides,
   }
 }

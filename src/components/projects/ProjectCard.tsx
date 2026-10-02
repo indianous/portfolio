@@ -8,52 +8,30 @@ interface ProjectCardProps {
   headingLevel?: 'h2' | 'h3'
 }
 
-// O aria-label põe o nome do projeto nos links: em vários cards, "Repositório" sozinho teria o
+// O aria-label põe o nome do projeto nos links: em vários cards, "Detalhes" sozinho teria o
 // mesmo nome e destinos diferentes. Ele começa pelo texto visível, para o comando de voz achá-lo.
 export function ProjectCard({ project, headingLevel = 'h3' }: ProjectCardProps) {
-  const { slug, title, summary, technologies, repoUrl, liveUrl, hasCaseStudy } = project
-  const hasLinks = hasCaseStudy || repoUrl || liveUrl
+  const { slug, title, summary, technologies, liveUrl } = project
 
   return (
     <Card
       variant="outlined"
       className="flex h-full flex-col"
       footer={
-        hasLinks ? (
-          <div className="flex flex-wrap gap-2">
-            {hasCaseStudy && (
-              <ButtonLink
-                href={`/projects/${slug}`}
-                size="sm"
-                aria-label={`Estudo de caso de ${title}`}
-              >
-                Estudo de caso
-              </ButtonLink>
-            )}
-            {repoUrl && (
-              <Button
-                as="a"
-                href={repoUrl}
-                variant="outline"
-                size="sm"
-                aria-label={`Repositório de ${title}`}
-              >
-                Repositório
-              </Button>
-            )}
-            {liveUrl && (
-              <Button
-                as="a"
-                href={liveUrl}
-                variant="ghost"
-                size="sm"
-                aria-label={`Ver ${title} online`}
-              >
-                Ver online
-              </Button>
-            )}
-          </div>
-        ) : undefined
+        <div className="flex flex-wrap gap-2">
+          <ButtonLink href={`/projects/${slug}`} size="sm" aria-label={`Detalhes de ${title}`}>
+            Detalhes
+          </ButtonLink>
+          <Button
+            as="a"
+            href={liveUrl}
+            variant="outline"
+            size="sm"
+            aria-label={`Ver demonstração de ${title}`}
+          >
+            Ver demonstração
+          </Button>
+        </div>
       }
     >
       <div className="flex flex-col gap-3">

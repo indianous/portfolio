@@ -14,16 +14,12 @@ export const projectSchema = z
     summary: z.string().min(1),
     technologies: z.array(z.string().min(1)).min(1),
     date: isoDate,
-    repoUrl: z.url().optional(),
-    liveUrl: z.url().optional(),
+    /** Site de demonstração da aplicação. */
+    liveUrl: z.url(),
     cover: z.string().min(1).optional(),
     coverAlt: z.string().min(1).optional(),
     featured: z.boolean().default(false),
     order: z.number().int().optional(),
-    /** Resultados em números, mostrados antes do estudo de caso. */
-    highlights: z
-      .array(z.object({ value: z.string().min(1), label: z.string().min(1) }))
-      .optional(),
   })
   .refine((project) => !project.cover || project.coverAlt, {
     message: 'cover exige coverAlt (texto alternativo da capa)',
@@ -64,7 +60,7 @@ interface Entry {
   body: string
 }
 
-export type Project = z.infer<typeof projectSchema> & Entry & { hasCaseStudy: boolean }
+export type Project = z.infer<typeof projectSchema> & Entry
 export type Post = z.infer<typeof postSchema> & Entry & { readingMinutes: number }
 export type Experience = z.infer<typeof experienceSchema> & Entry
 export type Profile = z.infer<typeof profileSchema> & Pick<Entry, 'body'>

@@ -6,7 +6,7 @@ import { AppLink } from '@/components/AppLink'
 // listas, citações, tabelas e divisórias não têm equivalente nele e ficam nativos, só com tokens.
 // Os blocos de código chegam já realçados pelo plugin `rehypeHighlight` (data-* no `<pre>`).
 
-// Recuo ao seguir uma âncora (o índice do estudo de caso): o Navbar fixo tem h-14, e o título
+// Recuo ao seguir uma âncora (o índice do post): o Navbar fixo tem h-14, e o título
 // para logo abaixo dele, com folga.
 const headingClassName = 'scroll-mt-16'
 
