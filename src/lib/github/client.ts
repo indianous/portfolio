@@ -4,8 +4,8 @@ import { mapContributions, mapRepos } from '@/lib/github/mappers'
 import type { GitHubProfile, RawContributionCalendar, RawRepo } from '@/lib/github/types'
 
 const ENDPOINT = 'https://api.github.com/graphql'
-// Revalidação dos dados (ISR): a página fica estática e se atualiza a cada hora.
-const REVALIDATE_SECONDS = 3600
+// Revalidação dos dados (ISR): a página fica estática e se atualiza uma vez por dia.
+const REVALIDATE_SECONDS = 60 * 60 * 24
 
 const QUERY = `
   query Portfolio($login: String!) {

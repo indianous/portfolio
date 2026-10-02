@@ -7,11 +7,11 @@
 Levantados em 2026-10-01, com o base-ds v0.5.2 e o Next.js 16.3.6.
 
 - **"Tempo real" x performance.** Buscar no navegador a cada visita pesa, expõe limite de taxa e
-  prejudica o Lighthouse. A busca é no servidor, com revalidação a cada 1 h (ISR): a página
-  continua estática e os dados ficam quase em tempo real.
+  prejudica o Lighthouse. A busca é no servidor, com revalidação diária (ISR): a página
+  continua estática e os dados se atualizam uma vez por dia.
 - **Cache de `POST` no Next.js 16.** A API GraphQL usa `POST`, e sem `cacheComponents` o cache do
-  `fetch` é opcional: `cache: 'force-cache'` com `next: { revalidate: 3600 }`. A rota passa a
-  revalidar a cada hora.
+  `fetch` é opcional: `cache: 'force-cache'` com `next: { revalidate: 86400 }`. A rota passa a
+  revalidar uma vez por dia.
 - **Repositórios fixados e calendário só existem na API GraphQL** (`user.pinnedItems` e
   `contributionsCollection`), que exige token: `GITHUB_TOKEN` só no servidor (Vercel e o ambiente
   local), nunca com prefixo `NEXT_PUBLIC_`. O usuário vem de `GITHUB_USERNAME` ou do link do GitHub
@@ -39,7 +39,7 @@ Levantados em 2026-10-01, com o base-ds v0.5.2 e o Next.js 16.3.6.
 
 - Sem `GITHUB_TOKEN`, devolve `null` sem chamar a rede.
 - Envia a query GraphQL com `Authorization: Bearer <token>`, o usuário nas variáveis e o cache de
-  1 h (`force-cache` + `revalidate: 3600`).
+  1 dia (`force-cache` + `revalidate: 86400`).
 - Usa `GITHUB_USERNAME` quando definido; senão, o usuário do link do GitHub em `site.ts`.
 - Resposta com `errors` ou status de erro vira `GitHubApiError`.
 - `getGitHubProfile()` devolve `null` e registra o erro quando a API falha.

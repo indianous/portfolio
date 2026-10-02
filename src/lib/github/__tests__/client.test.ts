@@ -33,7 +33,7 @@ describe('fetchGitHubProfile', () => {
     expect(fetchMock).not.toHaveBeenCalled()
   })
 
-  it('envia a query com o token, o usuário e o cache de 1 hora', async () => {
+  it('envia a query com o token, o usuário e o cache de 1 dia', async () => {
     const fetchMock = vi.fn().mockResolvedValue(jsonResponse(graphqlData))
     const profile = await fetchGitHubProfile({ GITHUB_TOKEN: 'tok' }, fetchMock)
 
@@ -42,7 +42,7 @@ describe('fetchGitHubProfile', () => {
     expect(init.method).toBe('POST')
     expect(init.headers.Authorization).toBe('Bearer tok')
     expect(init.cache).toBe('force-cache')
-    expect(init.next).toEqual({ revalidate: 3600 })
+    expect(init.next).toEqual({ revalidate: 86400 })
     expect(JSON.parse(init.body).variables).toEqual({ login: 'indianous' })
 
     expect(profile?.username).toBe('indianous')
