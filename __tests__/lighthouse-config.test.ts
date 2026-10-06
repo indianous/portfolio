@@ -2,6 +2,7 @@
 import { readFileSync } from 'node:fs'
 import { join } from 'node:path'
 import { describe, expect, it } from 'vitest'
+import { getProjects } from '@/content/loaders'
 
 const config = JSON.parse(readFileSync(join(__dirname, '..', 'lighthouserc.json'), 'utf8')).ci
 
@@ -10,7 +11,17 @@ describe('Lighthouse CI', () => {
     expect(config.collect.numberOfRuns).toBe(3)
     expect(config.collect.startServerCommand).toBe('npm run start')
     const paths = config.collect.url.map((url: string) => new URL(url).pathname)
-    expect(paths).toEqual(['/', '/projects', '/projects/base-ds', '/blog', '/about'])
+    expect(paths).toEqual(['/', '/projects', '/projects/ecommerce', '/blog', '/about'])
+  })
+
+  it('mede uma página de projeto que existe no content/', async () => {
+    const slugs = (await getProjects()).map((project) => project.slug)
+    const projectPages = config.collect.url
+      .map((url: string) => new URL(url).pathname)
+      .filter((path: string) => path.startsWith('/projects/'))
+    for (const path of projectPages) {
+      expect(slugs).toContain(path.slice('/projects/'.length))
+    }
   })
 
   it('exige 100 em acessibilidade, boas práticas e SEO, e 95 em performance', () => {
