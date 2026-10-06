@@ -1,11 +1,10 @@
 ---
-headline: Desenvolvo aplicações web de ponta a ponta, do banco de dados à interface, com foco em performance, acessibilidade e código fácil de manter.
+headline: Desenvolvo soluções web de ponta a ponta, do banco de dados à interface, com foco em performance, acessibilidade e código fácil de manter.
 resume: /curriculo-joao-victor.pdf
 ---
 
-Sou desenvolvedor full-stack e trabalho de forma autônoma desde 2016, construindo aplicações web
-para clientes de diferentes áreas.
+Sou desenvolvedor full-stack e desenvolvo de forma autônoma desde 2017, construindo aplicações web,
+back-ends e apps mobile.
 
-No front-end, trabalho com React, Next.js e TypeScript, e mantenho o
-[base-ds](/projects/base-ds), o design system que uso nos meus projetos. No back-end, com Node.js
-e Java. Gosto de entregar software rápido, acessível e com testes.
+Me especializei em React, TypeScript e Java, além de um pouco de C. Mantenho a aplicação
+[ecommerce](/projects/ecommerce), uma loja virtual que também está disponível para venda.
